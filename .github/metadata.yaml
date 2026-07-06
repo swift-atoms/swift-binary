@@ -1,6 +1,6 @@
 # .github/metadata.yaml
 # Triaged by AI-assisted bulk pass (2026-04-29).
-description: "Binary types for Swift."
+description: "Explicit-endianness byte codec for fixed-width integers, zero-copy on decode, in Swift."
 topics:
   - primitives
   - binary
