@@ -84,7 +84,7 @@ extension FixedWidthInteger {
     ///   - bytes: Byte array to deserialize (must be exactly the size of the integer type)
     ///   - endianness: Byte order of the input (defaults to little-endian)
     @inlinable
-    public init?(bytes: some Collection<Byte>, endianness: Binary.Endianness = .little) {
+    public init?(bytes: some Swift.Collection<Byte>, endianness: Binary.Endianness = .little) {
         let size = MemoryLayout<Self>.size
         guard bytes.count == size else { return nil }
         var result: Self = 0
@@ -106,7 +106,7 @@ extension FixedWidthInteger {
         let size = MemoryLayout<Self>.size
         guard bytes.count == size else { return nil }
         var result: Self = 0
-        for position in 0..<size {
+        (0..<size).forEach { position in
             let index = endianness == .little ? position : size - 1 - position
             result |= Self(truncatingIfNeeded: bytes[position].underlying) &<< Self(truncatingIfNeeded: index &* 8)
         }
@@ -123,7 +123,7 @@ extension FixedWidthInteger {
         endianness: Binary.Endianness = .little
     ) where Sink.Element == Byte {
         let size = MemoryLayout<Self>.size
-        for position in 0..<size {
+        (0..<size).forEach { position in
             let index = endianness == .little ? position : size - 1 - position
             sink.append(Byte(UInt8(truncatingIfNeeded: self &>> Self(truncatingIfNeeded: index &* 8))))
         }

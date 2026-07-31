@@ -34,7 +34,7 @@ extension [UInt8] {
         case .big:
             converted = value.bigEndian
         }
-        self = unsafe Swift.withUnsafeBytes(of: converted) { unsafe Array($0) }
+        unsafe (self = Swift.withUnsafeBytes(of: converted) { unsafe Array($0) })
     }
 }
 
@@ -122,16 +122,12 @@ extension [UInt8] {
                 break
             }
 
-            var found = false
-            for i in start...(bytes.count - separator.count)
-            where bytes[i..<i + separator.count].elementsEqual(separator) {
+            if let i = (start...(bytes.count - separator.count)).first(where: {
+                bytes[$0..<$0 + separator.count].elementsEqual(separator)
+            }) {
                 result.append(Array(bytes[start..<i]))
                 start = i + separator.count
-                found = true
-                break
-            }
-
-            if !found {
+            } else {
                 result.append(Array(bytes[start...]))
                 break
             }
