@@ -122,15 +122,16 @@ extension [UInt8] {
                 break
             }
 
-            if let i = (start...(bytes.count - separator.count)).first(where: {
-                bytes[$0..<$0 + separator.count].elementsEqual(separator)
-            }) {
-                result.append(Array(bytes[start..<i]))
-                start = i + separator.count
-            } else {
+            guard
+                let i = (start...(bytes.count - separator.count)).first(where: {
+                    bytes[$0..<$0 + separator.count].elementsEqual(separator)
+                })
+            else {
                 result.append(Array(bytes[start...]))
                 break
             }
+            result.append(Array(bytes[start..<i]))
+            start = i + separator.count
         }
 
         return result
