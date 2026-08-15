@@ -91,7 +91,8 @@ extension FixedWidthInteger {
         var position = 0
         for byte in bytes {
             let index = endianness == .little ? position : size - 1 - position
-            result |= Self(truncatingIfNeeded: byte.underlying) &<< Self(truncatingIfNeeded: index &* 8)
+            result |=
+                Self(truncatingIfNeeded: byte.underlying) &<< Self(truncatingIfNeeded: index &* 8)
             position &+= 1
         }
         self = result
@@ -108,7 +109,9 @@ extension FixedWidthInteger {
         var result: Self = 0
         (0..<size).forEach { position in
             let index = endianness == .little ? position : size - 1 - position
-            result |= Self(truncatingIfNeeded: bytes[position].underlying) &<< Self(truncatingIfNeeded: index &* 8)
+            result |=
+                Self(truncatingIfNeeded: bytes[position].underlying)
+                &<< Self(truncatingIfNeeded: index &* 8)
         }
         self = result
     }
@@ -125,7 +128,9 @@ extension FixedWidthInteger {
         let size = MemoryLayout<Self>.size
         (0..<size).forEach { position in
             let index = endianness == .little ? position : size - 1 - position
-            sink.append(Byte(UInt8(truncatingIfNeeded: self &>> Self(truncatingIfNeeded: index &* 8))))
+            sink.append(
+                Byte(UInt8(truncatingIfNeeded: self &>> Self(truncatingIfNeeded: index &* 8)))
+            )
         }
     }
 
