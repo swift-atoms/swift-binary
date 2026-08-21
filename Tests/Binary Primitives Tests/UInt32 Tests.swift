@@ -1,15 +1,9 @@
-// UInt32 Tests.swift
-
 import Binary_Primitives_Standard_Library_Integration
 import Binary_Primitives_Test_Support
 import Testing
 
 @testable import Binary_Primitives
 
-// MARK: - Test Suites
-
-/// Tests for UInt32 byte encoding - uses parallel namespace pattern
-/// since UInt32 is a stdlib type.
 @Suite
 struct `UInt32 - Byte encoding Tests` {
     @Suite struct Unit {}
@@ -17,8 +11,6 @@ struct `UInt32 - Byte encoding Tests` {
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
-
-// MARK: - Unit Tests
 
 extension `UInt32 - Byte encoding Tests`.Unit {
 
@@ -45,14 +37,14 @@ extension `UInt32 - Byte encoding Tests`.Unit {
 
     @Test
     func `encode max value`() {
-        let value: UInt32 = .max  // 0xFFFF_FFFF
+        let value: UInt32 = .max
         #expect(value.bytes(endianness: .little) == [0xFF, 0xFF, 0xFF, 0xFF])
         #expect(value.bytes(endianness: .big) == [0xFF, 0xFF, 0xFF, 0xFF])
     }
 
     @Test
     func `encode-decode isomorphism little-endian`() {
-        // encode ∘ decode ≡ id
+
         let original: UInt32 = 0x1234_5678
         let bytes = original.bytes(endianness: .little)
         let recovered = UInt32(bytes: bytes, endianness: .little)
@@ -61,7 +53,7 @@ extension `UInt32 - Byte encoding Tests`.Unit {
 
     @Test
     func `encode-decode isomorphism big-endian`() {
-        // encode ∘ decode ≡ id
+
         let original: UInt32 = 0xABCD_EF01
         let bytes = original.bytes(endianness: .big)
         let recovered = UInt32(bytes: bytes, endianness: .big)
@@ -70,7 +62,7 @@ extension `UInt32 - Byte encoding Tests`.Unit {
 
     @Test
     func `decode-encode isomorphism`() {
-        // decode ∘ encode ≡ id
+
         let originalBytes: [Byte] = [0x12, 0x34, 0x56, 0x78]
         let value = UInt32(bytes: originalBytes, endianness: .little)
         let recoveredBytes = value?.bytes(endianness: .little)

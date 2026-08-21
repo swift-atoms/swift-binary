@@ -1,14 +1,8 @@
-// RangeReplaceableCollection+Bytes Tests.swift
-
 import Binary_Primitives_Test_Support
 import Testing
 
 @testable import Binary_Primitives
 
-// MARK: - Test Suites
-
-/// Tests for RangeReplaceableCollection byte operations - uses parallel namespace pattern
-/// since these are protocol extensions.
 @Suite
 struct `RangeReplaceableCollection+Bytes Tests` {
     @Suite struct Unit {}
@@ -17,11 +11,7 @@ struct `RangeReplaceableCollection+Bytes Tests` {
     @Suite(.serialized) struct Performance {}
 }
 
-// MARK: - Unit Tests
-
 extension `RangeReplaceableCollection+Bytes Tests`.Unit {
-
-    // MARK: - UTF-8 Append
 
     @Test
     func `append UTF-8 string to buffer`() {
@@ -39,7 +29,7 @@ extension `RangeReplaceableCollection+Bytes Tests`.Unit {
 
     @Test
     func `append UTF-8 to existing content`() {
-        var buffer: [Byte] = [72, 105]  // "Hi"
+        var buffer: [Byte] = [72, 105]
         buffer.append(utf8: " there")
         #expect(String(buffer) == "Hi there")
     }
@@ -57,8 +47,6 @@ extension `RangeReplaceableCollection+Bytes Tests`.Unit {
         buffer.append(utf8: "Hello")
         #expect(String(buffer) == "Hello")
     }
-
-    // MARK: - Single Byte Append
 
     @Test
     func `append single byte to buffer`() {
@@ -82,8 +70,6 @@ extension `RangeReplaceableCollection+Bytes Tests`.Unit {
         buffer.append(0x03)
         #expect(buffer == [0x01, 0x02, 0x03])
     }
-
-    // MARK: - ContiguousArray Support
 
     @Test
     func `append UTF-8 to ContiguousArray`() {

@@ -1,14 +1,8 @@
-// Array+Bytes Tests.swift
-
 import Binary_Primitives_Test_Support
 import Testing
 
 @testable import Binary_Primitives
 
-// MARK: - Test Suites
-
-/// Tests for Array byte operations - uses parallel namespace pattern
-/// since Array is a stdlib type.
 @Suite
 struct `Array+Bytes Tests` {
     @Suite struct Unit {}
@@ -17,11 +11,7 @@ struct `Array+Bytes Tests` {
     @Suite(.serialized) struct Performance {}
 }
 
-// MARK: - Unit Tests
-
 extension `Array+Bytes Tests`.Unit {
-
-    // MARK: - Single Integer Serialization
 
     @Test
     func `array from integer little endian`() {
@@ -53,8 +43,6 @@ extension `Array+Bytes Tests`.Unit {
         #expect(bytes == expected)
     }
 
-    // MARK: - Collection Serialization
-
     @Test
     func `array from collection of integers`() {
         let values: [UInt16] = [1, 2, 3]
@@ -77,8 +65,6 @@ extension `Array+Bytes Tests`.Unit {
         #expect(bytes == [0x12, 0x34, 0x56, 0x78])
     }
 
-    // MARK: - String Conversions
-
     @Test
     func `array from UTF8 string`() {
         let bytes = [UInt8](utf8: "Hi")
@@ -97,8 +83,6 @@ extension `Array+Bytes Tests`.Unit {
         #expect(bytes.count > 0)
         #expect(String(decoding: bytes, as: UTF8.self) == "Hello")
     }
-
-    // MARK: - Splitting
 
     @Test
     func `split by separator`() {
@@ -134,8 +118,6 @@ extension `Array+Bytes Tests`.Unit {
         #expect(parts.count == 1)
         #expect(parts[0] == data)
     }
-
-    // MARK: - Mutation Helpers
 
     @Test
     func `append UInt16`() {
@@ -204,10 +186,6 @@ extension `Array+Bytes Tests`.Unit {
     }
 }
 
-// MARK: - Joining Byte Arrays Tests
-
-/// Tests for joining byte arrays - uses parallel namespace pattern
-/// since [[UInt8]] is composed of stdlib types.
 @Suite
 struct `[[UInt8]] - Joining Tests` {
     @Suite struct Unit {}
@@ -257,7 +235,7 @@ extension `[[UInt8]] - Joining Tests`.Unit {
     func `join preserves capacity efficiency`() {
         let parts: [[UInt8]] = [[1, 2], [3, 4], [5, 6]]
         let joined = parts.joined(separator: [0])
-        // Should be [1, 2, 0, 3, 4, 0, 5, 6] = 8 bytes
+
         #expect(joined.count == 8)
     }
 }

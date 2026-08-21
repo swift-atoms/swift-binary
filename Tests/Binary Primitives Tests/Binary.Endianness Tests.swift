@@ -1,13 +1,8 @@
-// Binary.Endianness Tests.swift
-
 import Binary_Primitives_Test_Support
 import Testing
 
 @testable import Binary_Primitives
 
-// MARK: - Test Suites
-
-/// Tests for Binary.Endianness - non-generic type using type extension pattern per [TEST-003].
 extension Binary.Endianness {
     @Suite
     struct Test {
@@ -17,8 +12,6 @@ extension Binary.Endianness {
         @Suite(.serialized) struct Performance {}
     }
 }
-
-// MARK: - Unit Tests
 
 extension Binary.Endianness.Test.Unit {
 
@@ -56,7 +49,7 @@ extension Binary.Endianness.Test.Unit {
 
     @Test
     func `native is one of the valid values`() {
-        // Should be one of the two valid values
+
         let native = Binary.Endianness.native
         #expect(native == .little || native == .big)
     }

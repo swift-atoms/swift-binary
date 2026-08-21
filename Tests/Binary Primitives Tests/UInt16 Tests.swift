@@ -1,15 +1,9 @@
-// UInt16 Tests.swift
-
 import Binary_Primitives_Standard_Library_Integration
 import Binary_Primitives_Test_Support
 import Testing
 
 @testable import Binary_Primitives
 
-// MARK: - Test Suites
-
-/// Tests for UInt16 byte encoding - uses parallel namespace pattern
-/// since UInt16 is a stdlib type.
 @Suite
 struct `UInt16 - Byte encoding Tests` {
     @Suite struct Unit {}
@@ -17,8 +11,6 @@ struct `UInt16 - Byte encoding Tests` {
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
-
-// MARK: - Unit Tests
 
 extension `UInt16 - Byte encoding Tests`.Unit {
 
@@ -45,14 +37,14 @@ extension `UInt16 - Byte encoding Tests`.Unit {
 
     @Test
     func `encode max value`() {
-        let value: UInt16 = .max  // 0xFFFF
+        let value: UInt16 = .max
         #expect(value.bytes(endianness: .little) == [0xFF, 0xFF])
         #expect(value.bytes(endianness: .big) == [0xFF, 0xFF])
     }
 
     @Test
     func `encode-decode isomorphism little-endian`() {
-        // encode ∘ decode ≡ id
+
         let original: UInt16 = 0x1234
         let bytes = original.bytes(endianness: .little)
         let recovered = UInt16(bytes: bytes, endianness: .little)
@@ -61,7 +53,7 @@ extension `UInt16 - Byte encoding Tests`.Unit {
 
     @Test
     func `encode-decode isomorphism big-endian`() {
-        // encode ∘ decode ≡ id
+
         let original: UInt16 = 0xABCD
         let bytes = original.bytes(endianness: .big)
         let recovered = UInt16(bytes: bytes, endianness: .big)
@@ -70,7 +62,7 @@ extension `UInt16 - Byte encoding Tests`.Unit {
 
     @Test
     func `decode-encode isomorphism`() {
-        // decode ∘ encode ≡ id
+
         let originalBytes: [Byte] = [0x12, 0x34]
         let value = UInt16(bytes: originalBytes, endianness: .little)
         let recoveredBytes = value?.bytes(endianness: .little)
@@ -101,8 +93,6 @@ extension `UInt16 - Byte encoding Tests`.Unit {
     }
 }
 
-// MARK: - Integration Tests
-
 extension `UInt16 - Byte encoding Tests`.Integration {
 
     @Test
@@ -116,7 +106,7 @@ extension `UInt16 - Byte encoding Tests`.Integration {
     @Test
     func `collection works with ArraySlice`() {
         let values: [UInt16] = [100, 200, 300, 400, 500]
-        let slice = values[1...3]  // ArraySlice containing [200, 300, 400]
+        let slice = values[1...3]
 
         let bytes = [UInt8](serializing: slice)
         let recovered = [UInt16](bytes: bytes)
@@ -134,7 +124,7 @@ extension `UInt16 - Byte encoding Tests`.Integration {
     @Test
     func `collection works with prefix`() {
         let values: [UInt16] = [100, 200, 300, 400, 500]
-        let prefix = values.prefix(3)  // [100, 200, 300]
+        let prefix = values.prefix(3)
 
         let bytes = [UInt8](serializing: prefix)
         let recovered = [UInt16](bytes: bytes)
@@ -144,7 +134,7 @@ extension `UInt16 - Byte encoding Tests`.Integration {
     @Test
     func `collection works with suffix`() {
         let values: [UInt16] = [100, 200, 300, 400, 500]
-        let suffix = values.suffix(2)  // [400, 500]
+        let suffix = values.suffix(2)
 
         let bytes = [UInt8](serializing: suffix)
         let recovered = [UInt16](bytes: bytes)
@@ -158,10 +148,8 @@ extension `UInt16 - Byte encoding Tests`.Integration {
         let bytesLE = [UInt8](serializing: values, endianness: .little)
         let bytesBE = [UInt8](serializing: values, endianness: .big)
 
-        // Little-endian: least significant byte first
         #expect(bytesLE == [0x02, 0x01, 0x04, 0x03])
 
-        // Big-endian: most significant byte first
         #expect(bytesBE == [0x01, 0x02, 0x03, 0x04])
     }
 }

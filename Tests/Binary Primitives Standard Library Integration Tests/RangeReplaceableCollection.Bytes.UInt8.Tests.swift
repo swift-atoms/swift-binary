@@ -1,8 +1,3 @@
-// RangeReplaceableCollection.Bytes.UInt8.Tests.swift
-//
-// Tests for the stdlib-interop UInt8 forwarders on RangeReplaceableCollection
-// byte mutation helpers.
-
 import Binary_Primitives
 import Binary_Primitives_Standard_Library_Integration
 import Testing
@@ -12,8 +7,6 @@ struct `RangeReplaceableCollection+Bytes UInt8 forwarder Tests` {
     @Suite struct Unit {}
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
-
-    // MARK: - UTF-8 Append
 
     @Test
     func `append UTF-8 string to [UInt8] buffer`() {
@@ -31,7 +24,7 @@ struct `RangeReplaceableCollection+Bytes UInt8 forwarder Tests` {
 
     @Test
     func `append UTF-8 to existing [UInt8] content`() {
-        var buffer: [UInt8] = [72, 105]  // "Hi"
+        var buffer: [UInt8] = [72, 105]
         buffer.append(utf8: " there")
         #expect(String(decoding: buffer, as: UTF8.self) == "Hi there")
     }
@@ -43,16 +36,12 @@ struct `RangeReplaceableCollection+Bytes UInt8 forwarder Tests` {
         #expect(buffer == [1, 2, 3])
     }
 
-    // MARK: - Single Byte Append
-
     @Test
     func `append single byte to [UInt8] buffer`() {
         var buffer: [UInt8] = []
         [UInt8].append(0x41, to: &buffer)
         #expect(buffer == [0x41])
     }
-
-    // MARK: - ContiguousArray<UInt8> Support
 
     @Test
     func `append UTF-8 to ContiguousArray<UInt8>`() {

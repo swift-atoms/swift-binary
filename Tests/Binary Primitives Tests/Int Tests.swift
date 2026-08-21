@@ -1,15 +1,9 @@
-// Int Tests.swift
-
 import Binary_Primitives_Standard_Library_Integration
 import Binary_Primitives_Test_Support
 import Testing
 
 @testable import Binary_Primitives
 
-// MARK: - Test Suites
-
-/// Tests for Int byte serialization - uses parallel namespace pattern
-/// since Int is a stdlib type.
 @Suite
 struct `Int - Byte serialization Tests` {
     @Suite struct Unit {}
@@ -18,7 +12,6 @@ struct `Int - Byte serialization Tests` {
     @Suite(.serialized) struct Performance {}
 }
 
-/// Tests for [Int] byte serialization.
 @Suite
 struct `[Int] - Byte serialization Tests` {
     @Suite struct Unit {}
@@ -26,8 +19,6 @@ struct `[Int] - Byte serialization Tests` {
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
-
-// MARK: - Int Unit Tests
 
 extension `Int - Byte serialization Tests`.Unit {
 
@@ -45,7 +36,7 @@ extension `Int - Byte serialization Tests`.Unit {
         let bytes = [UInt8](value, endianness: .little)
 
         #if arch(x86_64) || arch(arm64)
-            // On 64-bit systems, Int is 8 bytes
+
             #expect(bytes.count == 8)
             #expect(bytes[0] == 0x08)
             #expect(bytes[1] == 0x07)
@@ -56,7 +47,7 @@ extension `Int - Byte serialization Tests`.Unit {
             #expect(bytes[6] == 0x02)
             #expect(bytes[7] == 0x01)
         #else
-            // On 32-bit systems, Int is 4 bytes
+
             #expect(bytes.count == 4)
             #expect(bytes[0] == 0x08)
             #expect(bytes[1] == 0x07)
@@ -71,7 +62,7 @@ extension `Int - Byte serialization Tests`.Unit {
         let bytes = [UInt8](value, endianness: .big)
 
         #if arch(x86_64) || arch(arm64)
-            // On 64-bit systems, Int is 8 bytes
+
             #expect(bytes.count == 8)
             #expect(bytes[0] == 0x01)
             #expect(bytes[1] == 0x02)
@@ -82,7 +73,7 @@ extension `Int - Byte serialization Tests`.Unit {
             #expect(bytes[6] == 0x07)
             #expect(bytes[7] == 0x08)
         #else
-            // On 32-bit systems, Int is 4 bytes
+
             #expect(bytes.count == 4)
             #expect(bytes[0] == 0x05)
             #expect(bytes[1] == 0x06)
@@ -99,7 +90,7 @@ extension `Int - Byte serialization Tests`.Unit {
         #if arch(x86_64) || arch(arm64)
             #expect(value == 0x0807_0605_0403_0201)
         #else
-            // On 32-bit, only use first 4 bytes
+
             let value32 = Int(bytes: Array(bytes.prefix(4)), endianness: .littleEndian)
             #expect(value32 == 0x0403_0201)
         #endif
@@ -113,7 +104,7 @@ extension `Int - Byte serialization Tests`.Unit {
         #if arch(x86_64) || arch(arm64)
             #expect(value == 0x0102_0304_0506_0708)
         #else
-            // On 32-bit, only use first 4 bytes
+
             let value32 = Int(bytes: Array(bytes.prefix(4)), endianness: .bigEndian)
             #expect(value32 == 0x0102_0304)
         #endif
@@ -136,8 +127,6 @@ extension `Int - Byte serialization Tests`.Unit {
     }
 }
 
-// MARK: - Int Edge Case Tests
-
 extension `Int - Byte serialization Tests`.`Edge Case` {
 
     @Test
@@ -147,8 +136,6 @@ extension `Int - Byte serialization Tests`.`Edge Case` {
         #expect(value == nil)
     }
 }
-
-// MARK: - [Int] Unit Tests
 
 extension `[Int] - Byte serialization Tests`.Unit {
 
@@ -190,13 +177,11 @@ extension `[Int] - Byte serialization Tests`.Unit {
     }
 }
 
-// MARK: - [Int] Edge Case Tests
-
 extension `[Int] - Byte serialization Tests`.`Edge Case` {
 
     @Test
     func `array decoding fails with incorrect byte count`() {
-        // Not a multiple of Int size
+
         let bytes: [UInt8] = [0x01, 0x02, 0x03]
         let values = [Int](bytes: bytes)
         #expect(values == nil)

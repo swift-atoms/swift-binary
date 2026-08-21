@@ -1,14 +1,8 @@
-// FixedWidthInteger+Binary Tests.swift
-
 import Binary_Primitives_Test_Support
 import Testing
 
 @testable import Binary_Primitives
 
-// MARK: - Test Suites
-
-/// Tests for FixedWidthInteger extensions - uses parallel namespace pattern
-/// since these are protocol extensions.
 @Suite
 struct `FixedWidthInteger+Binary Tests` {
     @Suite struct Unit {}
@@ -17,11 +11,7 @@ struct `FixedWidthInteger+Binary Tests` {
     @Suite(.serialized) struct Performance {}
 }
 
-// MARK: - Unit Tests
-
 extension `FixedWidthInteger+Binary Tests`.Unit {
-
-    // MARK: - bytes(endianness:)
 
     @Test
     func `bytes with little endian UInt16`() {

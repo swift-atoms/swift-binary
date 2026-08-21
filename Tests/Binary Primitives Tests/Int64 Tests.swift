@@ -1,14 +1,8 @@
-// Int64 Tests.swift
-
 import Binary_Primitives_Test_Support
 import Testing
 
 @testable import Binary_Primitives
 
-// MARK: - Test Suites
-
-/// Tests for Int64 byte encoding - uses parallel namespace pattern
-/// since Int64 is a stdlib type.
 @Suite
 struct `Int64 - Byte encoding Tests` {
     @Suite struct Unit {}
@@ -16,8 +10,6 @@ struct `Int64 - Byte encoding Tests` {
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
-
-// MARK: - Unit Tests
 
 extension `Int64 - Byte encoding Tests`.Unit {
 
@@ -46,7 +38,7 @@ extension `Int64 - Byte encoding Tests`.Unit {
 
     @Test
     func `encode positive max value`() {
-        let value: Int64 = .max  // 0x7FFF_FFFF_FFFF_FFFF
+        let value: Int64 = .max
         #expect(
             value.bytes(endianness: .little) == [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F]
         )
@@ -64,7 +56,7 @@ extension `Int64 - Byte encoding Tests`.Unit {
 
     @Test
     func `encode negative min value`() {
-        let value: Int64 = .min  // -0x8000_0000_0000_0000
+        let value: Int64 = .min
         #expect(
             value.bytes(endianness: .little) == [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80]
         )
@@ -73,7 +65,7 @@ extension `Int64 - Byte encoding Tests`.Unit {
 
     @Test
     func `encode-decode isomorphism little-endian`() {
-        // encode ∘ decode ≡ id
+
         let original: Int64 = 0x1234_5678_9ABC_DEF0
         let bytes = original.bytes(endianness: .little)
         let recovered = Int64(bytes: bytes, endianness: .little)
@@ -82,7 +74,7 @@ extension `Int64 - Byte encoding Tests`.Unit {
 
     @Test
     func `encode-decode isomorphism big-endian`() {
-        // encode ∘ decode ≡ id
+
         let original: Int64 = -0x1234_5678_9ABC_DEF0
         let bytes = original.bytes(endianness: .big)
         let recovered = Int64(bytes: bytes, endianness: .big)

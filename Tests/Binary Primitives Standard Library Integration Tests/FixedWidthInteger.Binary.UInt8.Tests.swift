@@ -1,8 +1,3 @@
-// FixedWidthInteger.Binary.UInt8.Tests.swift
-//
-// Tests for the stdlib-interop UInt8 forwarders on FixedWidthInteger
-// byte serialization.
-
 import Binary_Primitives
 import Binary_Primitives_Standard_Library_Integration
 import Testing
@@ -12,8 +7,6 @@ struct `FixedWidthInteger+Binary UInt8 forwarder Tests` {
     @Suite struct Unit {}
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
-
-    // MARK: - static bytes(_:endianness:) -> [UInt8]
 
     @Test
     func `static bytes(value, endianness:) -> [UInt8] little-endian`() {
@@ -29,8 +22,6 @@ struct `FixedWidthInteger+Binary UInt8 forwarder Tests` {
         #expect(bytes == [0x12, 0x34, 0x56, 0x78])
     }
 
-    // MARK: - instance bytes(endianness:) -> [UInt8]
-
     @Test
     func `instance bytes(endianness:) -> [UInt8] little-endian`() {
         let value: UInt32 = 0x1234_5678
@@ -44,8 +35,6 @@ struct `FixedWidthInteger+Binary UInt8 forwarder Tests` {
         let bytes: [UInt8] = value.bytes(endianness: .big)
         #expect(bytes == [0x12, 0x34])
     }
-
-    // MARK: - init?(bytes: [UInt8], endianness:)
 
     @Test
     func `init?(bytes: [UInt8], endianness:) decodes little-endian`() {
@@ -66,8 +55,6 @@ struct `FixedWidthInteger+Binary UInt8 forwarder Tests` {
         let tooFew: [UInt8] = [0x12, 0x34]
         #expect(UInt32(bytes: tooFew, endianness: .big) == nil)
     }
-
-    // MARK: - Array<FixedWidthInteger>.init?<C: Collection>(bytes:) where C.Element == UInt8
 
     @Test
     func `Array<UInt16>.init?<C: Collection>(bytes: [UInt8], endianness:)`() {
