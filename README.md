@@ -1,4 +1,4 @@
-# Binary Primitives
+# Binary
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
@@ -11,7 +11,7 @@ Byte-order policy and a fixed-width-integer ↔ byte codec for Swift — explici
 `Binary` is a dependency-free namespace for the binary-domain vocabulary: the byte-order policy `Binary.Endianness` and the fixed-width-integer ↔ byte codec. The standard library only offers `.bigEndian` / `.littleEndian` bit-swaps on the integer itself; this package gives you the byte array in the order you choose, plus the inverse decode that validates length.
 
 ```swift
-import Binary_Primitives
+import Binary
 
 // Serialize an integer to bytes in an explicit byte order.
 let value: UInt32 = 0x1234_5678
@@ -37,7 +37,7 @@ The codec is zero-copy on the decode side — `init(_:Span<Byte>)` reads straigh
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-binary-primitives.git", branch: "main")
+    .package(url: "https://github.com/swift-molecules/swift-binary.git", branch: "main")
 ]
 ```
 
@@ -45,7 +45,7 @@ dependencies: [
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Binary Primitives", package: "swift-binary-primitives"),
+        .product(name: "Binary", package: "swift-binary"),
     ]
 )
 ```
@@ -56,15 +56,15 @@ Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 
 
 ## Architecture
 
-Five library products over a single dependency (`swift-byte-primitives`). Import the umbrella for the full surface, or a single variant to minimize it.
+Five library products over a single dependency (`swift-byte`). Import the umbrella for the full surface, or a single variant to minimize it.
 
 | Product | Target | When to import |
 |---------|--------|----------------|
-| `Binary Primitives` | `Sources/Binary Primitives/` | The umbrella — re-exports Endianness + the codec. Import this for the full surface. |
+| `Binary` | `Sources/Binary/` | The umbrella — re-exports Endianness + the codec. Import this for the full surface. |
 | `Binary Primitive` | `Sources/Binary Primitive/` | The dependency-free `enum Binary {}` namespace only, with no codec or endianness. |
-| `Binary Endianness Primitives` | `Sources/Binary Endianness Primitives/` | The `Binary.Endianness` byte-order policy in isolation. |
-| `Binary Primitives Standard Library Integration` | `Sources/Binary Primitives Standard Library Integration/` | The `FixedWidthInteger` / `Array` / `RangeReplaceableCollection` byte codec extensions over `Byte` and `UInt8`. |
-| `Binary Primitives Test Support` | `Tests/Support/` | Re-exports the umbrella for test consumers. |
+| `Binary Endianness` | `Sources/Binary Endianness/` | The `Binary.Endianness` byte-order policy in isolation. |
+| `Binary Standard Library Integration` | `Sources/Binary Standard Library Integration/` | The `FixedWidthInteger` / `Array` / `RangeReplaceableCollection` byte codec extensions over `Byte` and `UInt8`. |
+| `Binary Test Support` | `Tests/Support/` | Re-exports the umbrella for test consumers. |
 
 Foundation-free.
 

@@ -1,5 +1,5 @@
-import Binary_Primitives
-import Binary_Primitives_Standard_Library_Integration
+import Binary
+import Binary_Standard_Library_Integration
 import Testing
 
 @Suite

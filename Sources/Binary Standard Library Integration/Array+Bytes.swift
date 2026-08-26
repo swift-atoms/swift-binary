@@ -1,4 +1,4 @@
-public import Binary_Endianness_Primitives
+public import Binary_Endianness
 
 extension [UInt8] {
 
