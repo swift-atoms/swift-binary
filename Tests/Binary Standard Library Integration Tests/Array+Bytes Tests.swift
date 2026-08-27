@@ -1,4 +1,4 @@
-import Binary_Test_Support
+import Binary_Standard_Library_Integration
 import Testing
 
 @testable import Binary

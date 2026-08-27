@@ -1,4 +1,4 @@
-public import Binary_Endianness
+public import Binary
 
 extension [UInt8] {
 
@@ -71,49 +71,6 @@ extension [UInt8] {
     @inlinable
     public func split(separator: [UInt8]) -> [[UInt8]] {
         Self.split(self, separator: separator)
-    }
-}
-
-extension [UInt8] {
-
-    @inlinable
-    public mutating func append(_ value: UInt16, endianness: Binary.Endianness = .little) {
-        append(contentsOf: value.bytes(endianness: endianness).underlying)
-    }
-
-    @inlinable
-    public mutating func append(_ value: UInt32, endianness: Binary.Endianness = .little) {
-        append(contentsOf: value.bytes(endianness: endianness).underlying)
-    }
-
-    @inlinable
-    public mutating func append(_ value: UInt64, endianness: Binary.Endianness = .little) {
-        append(contentsOf: value.bytes(endianness: endianness).underlying)
-    }
-
-    @inlinable
-    public mutating func append(_ value: Int16, endianness: Binary.Endianness = .little) {
-        append(contentsOf: value.bytes(endianness: endianness).underlying)
-    }
-
-    @inlinable
-    public mutating func append(_ value: Int32, endianness: Binary.Endianness = .little) {
-        append(contentsOf: value.bytes(endianness: endianness).underlying)
-    }
-
-    @inlinable
-    public mutating func append(_ value: Int64, endianness: Binary.Endianness = .little) {
-        append(contentsOf: value.bytes(endianness: endianness).underlying)
-    }
-
-    @inlinable
-    public mutating func append(_ value: Int, endianness: Binary.Endianness) {
-        append(contentsOf: value.bytes(endianness: endianness).underlying)
-    }
-
-    @inlinable
-    public mutating func append(_ value: UInt, endianness: Binary.Endianness) {
-        append(contentsOf: value.bytes(endianness: endianness).underlying)
     }
 }
 

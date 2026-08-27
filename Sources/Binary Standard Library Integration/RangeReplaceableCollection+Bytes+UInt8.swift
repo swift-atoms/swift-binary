@@ -1,5 +1,3 @@
-internal import Byte
-
 extension RangeReplaceableCollection<UInt8> {
 
     @_disfavoredOverload
