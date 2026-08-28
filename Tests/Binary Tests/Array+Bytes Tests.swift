@@ -1,7 +1,7 @@
-import Binary_Primitives_Test_Support
+import Binary_Test_Support
 import Testing
 
-@testable import Binary_Primitives
+@testable import Binary
 
 @Suite
 struct `Array+Bytes Tests` {

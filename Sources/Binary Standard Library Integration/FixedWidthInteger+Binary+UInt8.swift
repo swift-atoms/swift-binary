@@ -1,6 +1,6 @@
-public import Binary_Endianness_Primitives
-internal import Byte_Primitives
-internal import Byte_Primitives_Standard_Library_Integration
+public import Binary_Endianness
+internal import Byte
+internal import Byte_Standard_Library_Integration
 
 extension FixedWidthInteger {
 

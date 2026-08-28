@@ -1,5 +1,5 @@
-public import Binary_Endianness_Primitives
-public import Byte_Primitives
+public import Binary_Endianness
+public import Byte
 
 extension FixedWidthInteger {
 

@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-binary-primitives",
+    name: "swift-binary",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -14,93 +14,79 @@ let package = Package(
     products: [
 
         .library(
-            name: "Binary Primitive",
-            targets: ["Binary Primitive"]
+            name: "Binary Endianness",
+            targets: ["Binary Endianness"]
         ),
 
         .library(
-            name: "Binary Endianness Primitives",
-            targets: ["Binary Endianness Primitives"]
+            name: "Binary Standard Library Integration",
+            targets: ["Binary Standard Library Integration"]
         ),
 
         .library(
-            name: "Binary Primitives Standard Library Integration",
-            targets: ["Binary Primitives Standard Library Integration"]
+            name: "Binary",
+            targets: ["Binary"]
         ),
 
         .library(
-            name: "Binary Primitives",
-            targets: ["Binary Primitives"]
-        ),
-
-        .library(
-            name: "Binary Primitives Test Support",
-            targets: ["Binary Primitives Test Support"]
+            name: "Binary Test Support",
+            targets: ["Binary Test Support"]
         ),
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-primitives/swift-byte-primitives.git",
+            url: "https://github.com/swift-atoms/swift-byte.git",
             branch: "main"
         )
     ],
     targets: [
 
         .target(
-            name: "Binary Primitive",
+            name: "Binary",
             dependencies: []
         ),
 
         .target(
-            name: "Binary Endianness Primitives",
+            name: "Binary Endianness",
             dependencies: [
-                "Binary Primitive"
+                .target(name: "Binary")
             ]
         ),
 
         .target(
-            name: "Binary Primitives Standard Library Integration",
+            name: "Binary Standard Library Integration",
             dependencies: [
-                "Binary Primitive",
-                "Binary Endianness Primitives",
-                .product(name: "Byte Primitives", package: "swift-byte-primitives"),
+                .target(name: "Binary"),
+                .target(name: "Binary Endianness"),
+                .product(name: "Byte", package: "swift-byte"),
                 .product(
-                    name: "Byte Primitives Standard Library Integration",
-                    package: "swift-byte-primitives"
+                    name: "Byte Standard Library Integration",
+                    package: "swift-byte"
                 ),
             ]
         ),
 
         .target(
-            name: "Binary Primitives",
+            name: "Binary Test Support",
             dependencies: [
-                "Binary Primitive",
-                "Binary Endianness Primitives",
-                "Binary Primitives Standard Library Integration",
-            ]
-        ),
-
-        .target(
-            name: "Binary Primitives Test Support",
-            dependencies: [
-                "Binary Primitives"
+                .target(name: "Binary")
             ],
             path: "Tests/Support"
         ),
         .testTarget(
-            name: "Binary Primitives Tests",
+            name: "Binary Tests",
             dependencies: [
-                "Binary Primitives",
-                "Binary Primitives Standard Library Integration",
-                "Binary Primitives Test Support",
+                .target(name: "Binary"),
+                .target(name: "Binary Standard Library Integration"),
+                .target(name: "Binary Test Support"),
             ]
         ),
         .testTarget(
-            name: "Binary Primitives Standard Library Integration Tests",
+            name: "Binary Standard Library Integration Tests",
             dependencies: [
-                "Binary Primitives",
-                "Binary Primitives Standard Library Integration",
-                "Binary Primitives Test Support",
+                .target(name: "Binary"),
+                .target(name: "Binary Standard Library Integration"),
+                .target(name: "Binary Test Support"),
             ]
         ),
     ],

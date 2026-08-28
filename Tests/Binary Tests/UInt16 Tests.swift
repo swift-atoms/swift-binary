@@ -1,8 +1,8 @@
-import Binary_Primitives_Standard_Library_Integration
-import Binary_Primitives_Test_Support
+import Binary_Standard_Library_Integration
+import Binary_Test_Support
 import Testing
 
-@testable import Binary_Primitives
+@testable import Binary
 
 @Suite
 struct `UInt16 - Byte encoding Tests` {
