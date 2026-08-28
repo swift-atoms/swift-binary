@@ -14,11 +14,6 @@ let package = Package(
     products: [
 
         .library(
-            name: "Binary Primitive",
-            targets: ["Binary Primitive"]
-        ),
-
-        .library(
             name: "Binary Endianness",
             targets: ["Binary Endianness"]
         ),
@@ -40,29 +35,29 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-molecules/swift-byte.git",
+            url: "https://github.com/swift-atoms/swift-byte.git",
             branch: "main"
         )
     ],
     targets: [
 
         .target(
-            name: "Binary Primitive",
+            name: "Binary",
             dependencies: []
         ),
 
         .target(
             name: "Binary Endianness",
             dependencies: [
-                "Binary Primitive"
+                .target(name: "Binary")
             ]
         ),
 
         .target(
             name: "Binary Standard Library Integration",
             dependencies: [
-                "Binary Primitive",
-                "Binary Endianness",
+                .target(name: "Binary"),
+                .target(name: "Binary Endianness"),
                 .product(name: "Byte", package: "swift-byte"),
                 .product(
                     name: "Byte Standard Library Integration",
@@ -72,35 +67,26 @@ let package = Package(
         ),
 
         .target(
-            name: "Binary",
-            dependencies: [
-                "Binary Primitive",
-                "Binary Endianness",
-                "Binary Standard Library Integration",
-            ]
-        ),
-
-        .target(
             name: "Binary Test Support",
             dependencies: [
-                "Binary"
+                .target(name: "Binary")
             ],
             path: "Tests/Support"
         ),
         .testTarget(
             name: "Binary Tests",
             dependencies: [
-                "Binary",
-                "Binary Standard Library Integration",
-                "Binary Test Support",
+                .target(name: "Binary"),
+                .target(name: "Binary Standard Library Integration"),
+                .target(name: "Binary Test Support"),
             ]
         ),
         .testTarget(
             name: "Binary Standard Library Integration Tests",
             dependencies: [
-                "Binary",
-                "Binary Standard Library Integration",
-                "Binary Test Support",
+                .target(name: "Binary"),
+                .target(name: "Binary Standard Library Integration"),
+                .target(name: "Binary Test Support"),
             ]
         ),
     ],

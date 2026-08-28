@@ -1,4 +1,4 @@
-# Binary
+# Binary Primitives
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
@@ -37,7 +37,7 @@ The codec is zero-copy on the decode side — `init(_:Span<Byte>)` reads straigh
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-molecules/swift-binary.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-binary.git", branch: "main")
 ]
 ```
 
@@ -60,9 +60,9 @@ Five library products over a single dependency (`swift-byte`). Import the umbrel
 
 | Product | Target | When to import |
 |---------|--------|----------------|
-| `Binary` | `Sources/Binary/` | The umbrella — re-exports Endianness + the codec. Import this for the full surface. |
+| `Binary Primitives` | `Sources/Binary Primitives/` | The umbrella — re-exports Endianness + the codec. Import this for the full surface. |
 | `Binary Primitive` | `Sources/Binary Primitive/` | The dependency-free `enum Binary {}` namespace only, with no codec or endianness. |
-| `Binary Endianness` | `Sources/Binary Endianness/` | The `Binary.Endianness` byte-order policy in isolation. |
+| `Binary Endianness Primitives` | `Sources/Binary Endianness Primitives/` | The `Binary.Endianness` byte-order policy in isolation. |
 | `Binary Standard Library Integration` | `Sources/Binary Standard Library Integration/` | The `FixedWidthInteger` / `Array` / `RangeReplaceableCollection` byte codec extensions over `Byte` and `UInt8`. |
 | `Binary Test Support` | `Tests/Support/` | Re-exports the umbrella for test consumers. |
 
