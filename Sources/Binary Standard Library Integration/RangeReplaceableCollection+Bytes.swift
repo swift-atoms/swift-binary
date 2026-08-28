@@ -1,30 +1,25 @@
-internal import Byte
+extension RangeReplaceableCollection<Byte> {
 
-extension RangeReplaceableCollection<UInt8> {
-
-    @_disfavoredOverload
     @inlinable
 
     public static func append<S: StringProtocol, Buffer: RangeReplaceableCollection>(
         utf8 string: S,
         to buffer: inout Buffer
-    ) where Buffer.Element == UInt8 {
+    ) where Buffer.Element == Byte {
         buffer.append(contentsOf: string.utf8)
     }
 
-    @_disfavoredOverload
     @inlinable
     public mutating func append(utf8 string: some StringProtocol) {
         Self.append(utf8: string, to: &self)
     }
 
-    @_disfavoredOverload
     @inlinable
 
     public static func append<Buffer: RangeReplaceableCollection>(
-        _ value: UInt8,
+        _ value: Byte,
         to buffer: inout Buffer
-    ) where Buffer.Element == UInt8 {
+    ) where Buffer.Element == Byte {
         buffer.append(contentsOf: CollectionOfOne(value))
     }
 }

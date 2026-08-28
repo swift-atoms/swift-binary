@@ -12,45 +12,95 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
+
         .library(
-            name: "Binary",
-            targets: ["Binary"]
+            name: "Binary Primitive",
+            targets: ["Binary Primitive"]
         ),
+
+        .library(
+            name: "Binary Endianness",
+            targets: ["Binary Endianness"]
+        ),
+
         .library(
             name: "Binary Standard Library Integration",
             targets: ["Binary Standard Library Integration"]
         ),
+
         .library(
-            name: "Binary Apple Foundation Integration",
-            targets: ["Binary Apple Foundation Integration"]
+            name: "Binary",
+            targets: ["Binary"]
+        ),
+
+        .library(
+            name: "Binary Test Support",
+            targets: ["Binary Test Support"]
         ),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(
+            url: "https://github.com/swift-molecules/swift-byte.git",
+            branch: "main"
+        )
+    ],
     targets: [
+
         .target(
-            name: "Binary",
+            name: "Binary Primitive",
             dependencies: []
         ),
+
+        .target(
+            name: "Binary Endianness",
+            dependencies: [
+                "Binary Primitive"
+            ]
+        ),
+
         .target(
             name: "Binary Standard Library Integration",
-            dependencies: ["Binary"]
-        ),
-        .target(
-            name: "Binary Apple Foundation Integration",
             dependencies: [
-                "Binary",
+                "Binary Primitive",
+                "Binary Endianness",
+                .product(name: "Byte", package: "swift-byte"),
+                .product(
+                    name: "Byte Standard Library Integration",
+                    package: "swift-byte"
+                ),
+            ]
+        ),
+
+        .target(
+            name: "Binary",
+            dependencies: [
+                "Binary Primitive",
+                "Binary Endianness",
                 "Binary Standard Library Integration",
             ]
         ),
+
+        .target(
+            name: "Binary Test Support",
+            dependencies: [
+                "Binary"
+            ],
+            path: "Tests/Support"
+        ),
         .testTarget(
             name: "Binary Tests",
-            dependencies: ["Binary"]
+            dependencies: [
+                "Binary",
+                "Binary Standard Library Integration",
+                "Binary Test Support",
+            ]
         ),
         .testTarget(
             name: "Binary Standard Library Integration Tests",
             dependencies: [
                 "Binary",
                 "Binary Standard Library Integration",
+                "Binary Test Support",
             ]
         ),
     ],
