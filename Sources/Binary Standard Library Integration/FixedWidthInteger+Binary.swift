@@ -1,5 +1,6 @@
 public import Binary_Endianness
 public import Byte
+public import Byte_Protocol
 
 extension FixedWidthInteger {
 

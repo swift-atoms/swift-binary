@@ -59,6 +59,7 @@ let package = Package(
                 .target(name: "Binary"),
                 .target(name: "Binary Endianness"),
                 .product(name: "Byte", package: "swift-byte"),
+                .product(name: "Byte Protocol", package: "swift-byte"),
                 .product(
                     name: "Byte Standard Library Integration",
                     package: "swift-byte"
@@ -77,14 +78,18 @@ let package = Package(
             name: "Binary Tests",
             dependencies: [
                 .target(name: "Binary"),
+                .target(name: "Binary Endianness"),
                 .target(name: "Binary Standard Library Integration"),
                 .target(name: "Binary Test Support"),
+                .product(name: "Byte", package: "swift-byte"),
+                .product(name: "Byte Protocol", package: "swift-byte"),
             ]
         ),
         .testTarget(
             name: "Binary Standard Library Integration Tests",
             dependencies: [
                 .target(name: "Binary"),
+                .target(name: "Binary Endianness"),
                 .target(name: "Binary Standard Library Integration"),
                 .target(name: "Binary Test Support"),
             ]

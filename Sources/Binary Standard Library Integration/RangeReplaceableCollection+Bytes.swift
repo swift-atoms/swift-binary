@@ -1,3 +1,5 @@
+public import Byte_Protocol
+
 extension RangeReplaceableCollection<Byte> {
 
     @inlinable

@@ -1,4 +1,5 @@
 public import Binary_Endianness
+public import Byte_Protocol
 
 extension [UInt8] {
 
