@@ -2,7 +2,6 @@ import Binary_Endianness
 import Binary_Standard_Library_Integration
 import Binary_Test_Support
 import Byte
-import Byte_Protocol
 import Testing
 
 @testable import Binary
@@ -21,28 +20,28 @@ extension `UInt32 - Byte encoding Tests`.Unit {
     func `encode to bytes little-endian`() {
         let value: UInt32 = 0x1234_5678
         let bytes = value.bytes(endianness: .little)
-        #expect(bytes == [0x78, 0x56, 0x34, 0x12])
+        #expect(bytes == [0x78, 0x56, 0x34, 0x12].map { Byte(bitPattern: $0) })
     }
 
     @Test
     func `encode to bytes big-endian`() {
         let value: UInt32 = 0x1234_5678
         let bytes = value.bytes(endianness: .big)
-        #expect(bytes == [0x12, 0x34, 0x56, 0x78])
+        #expect(bytes == [0x12, 0x34, 0x56, 0x78].map { Byte(bitPattern: $0) })
     }
 
     @Test
     func `encode zero`() {
         let value: UInt32 = 0
-        #expect(value.bytes(endianness: .little) == [0x00, 0x00, 0x00, 0x00])
-        #expect(value.bytes(endianness: .big) == [0x00, 0x00, 0x00, 0x00])
+        #expect(value.bytes(endianness: .little) == [0x00, 0x00, 0x00, 0x00].map { Byte(bitPattern: $0) })
+        #expect(value.bytes(endianness: .big) == [0x00, 0x00, 0x00, 0x00].map { Byte(bitPattern: $0) })
     }
 
     @Test
     func `encode max value`() {
         let value: UInt32 = .max
-        #expect(value.bytes(endianness: .little) == [0xFF, 0xFF, 0xFF, 0xFF])
-        #expect(value.bytes(endianness: .big) == [0xFF, 0xFF, 0xFF, 0xFF])
+        #expect(value.bytes(endianness: .little) == [0xFF, 0xFF, 0xFF, 0xFF].map { Byte(bitPattern: $0) })
+        #expect(value.bytes(endianness: .big) == [0xFF, 0xFF, 0xFF, 0xFF].map { Byte(bitPattern: $0) })
     }
 
     @Test
@@ -66,7 +65,7 @@ extension `UInt32 - Byte encoding Tests`.Unit {
     @Test
     func `decode-encode isomorphism`() {
 
-        let originalBytes: [Byte] = [0x12, 0x34, 0x56, 0x78]
+        let originalBytes = [0x12, 0x34, 0x56, 0x78].map { Byte(bitPattern: $0) }
         let value = UInt32(bytes: originalBytes, endianness: .little)
         let recoveredBytes = value?.bytes(endianness: .little)
         #expect(recoveredBytes == originalBytes)

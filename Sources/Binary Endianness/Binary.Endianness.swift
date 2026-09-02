@@ -1,6 +1,6 @@
 extension Binary {
 
-    public enum Endianness: Sendable, Hashable, CaseIterable {
+    public enum Endianness: Hashable, CaseIterable {
 
         case little
 

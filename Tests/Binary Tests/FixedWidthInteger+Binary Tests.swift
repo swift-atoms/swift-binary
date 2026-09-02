@@ -2,7 +2,6 @@ import Binary_Endianness
 import Binary_Standard_Library_Integration
 import Binary_Test_Support
 import Byte
-import Byte_Protocol
 import Testing
 
 @testable import Binary
@@ -43,7 +42,7 @@ extension `FixedWidthInteger+Binary Tests`.Unit {
         let bytes = value.bytes(endianness: .little)
 
         #expect(bytes.count == 4)
-        #expect(bytes == [0x78, 0x56, 0x34, 0x12])
+        #expect(bytes == [0x78, 0x56, 0x34, 0x12].map { Byte(bitPattern: $0) })
     }
 
     @Test
@@ -52,7 +51,7 @@ extension `FixedWidthInteger+Binary Tests`.Unit {
         let bytes = value.bytes(endianness: .big)
 
         #expect(bytes.count == 4)
-        #expect(bytes == [0x12, 0x34, 0x56, 0x78])
+        #expect(bytes == [0x12, 0x34, 0x56, 0x78].map { Byte(bitPattern: $0) })
     }
 
     @Test

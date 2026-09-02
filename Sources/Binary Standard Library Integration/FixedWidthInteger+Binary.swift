@@ -1,6 +1,5 @@
 public import Binary_Endianness
 public import Byte
-import Byte_Protocol
 
 extension FixedWidthInteger {
 
@@ -18,7 +17,10 @@ extension FixedWidthInteger {
     }
 
     @inlinable
-    public init?(bytes: some Swift.Collection<Byte>, endianness: Binary.Endianness = .little) {
+    public init?(
+        bytes: some Swift.Collection<Byte>,
+        endianness: Binary.Endianness = .little
+    ) {
         let size = MemoryLayout<Self>.size
         guard bytes.count == size else { return nil }
         var result: Self = 0
@@ -26,21 +28,25 @@ extension FixedWidthInteger {
         for byte in bytes {
             let index = endianness == .little ? position : size - 1 - position
             result |=
-                Self(truncatingIfNeeded: byte.underlying) &<< Self(truncatingIfNeeded: index &* 8)
+                Self(truncatingIfNeeded: byte.bitPattern)
+                &<< Self(truncatingIfNeeded: index &* 8)
             position &+= 1
         }
         self = result
     }
 
     @inlinable
-    public init?(_ bytes: borrowing Swift.Span<Byte>, endianness: Binary.Endianness = .little) {
+    public init?(
+        _ bytes: borrowing Swift.Span<Byte>,
+        endianness: Binary.Endianness = .little
+    ) {
         let size = MemoryLayout<Self>.size
         guard bytes.count == size else { return nil }
         var result: Self = 0
         (0..<size).forEach { position in
             let index = endianness == .little ? position : size - 1 - position
             result |=
-                Self(truncatingIfNeeded: bytes[position].underlying)
+                Self(truncatingIfNeeded: bytes[position].bitPattern)
                 &<< Self(truncatingIfNeeded: index &* 8)
         }
         self = result
@@ -55,7 +61,11 @@ extension FixedWidthInteger {
         (0..<size).forEach { position in
             let index = endianness == .little ? position : size - 1 - position
             sink.append(
-                Byte(UInt8(truncatingIfNeeded: self &>> Self(truncatingIfNeeded: index &* 8)))
+                Byte(
+                    bitPattern: UInt8(
+                        truncatingIfNeeded: self &>> Self(truncatingIfNeeded: index &* 8)
+                    )
+                )
             )
         }
     }
@@ -68,31 +78,6 @@ extension FixedWidthInteger {
         output.reserveCapacity(MemoryLayout<Self>.size)
         bytes(into: &output, endianness: endianness)
         return output
-    }
-
-}
-
-extension Array where Element: FixedWidthInteger {
-
-    @inlinable
-    public init?<C: Swift.Collection>(bytes: C, endianness: Binary.Endianness = .little)
-    where C.Element == Byte {
-        let elementSize = MemoryLayout<Element>.size
-        guard bytes.count % elementSize == 0 else { return nil }
-
-        var result: [Element] = []
-        result.reserveCapacity(bytes.count / elementSize)
-
-        let byteArray: [Byte] = .init(bytes)
-        for i in stride(from: 0, to: byteArray.count, by: elementSize) {
-            let chunk: [Byte] = .init(byteArray[i..<i + elementSize])
-            guard let element = Element(bytes: chunk, endianness: endianness) else {
-                return nil
-            }
-            result.append(element)
-        }
-
-        self = result
     }
 
 }

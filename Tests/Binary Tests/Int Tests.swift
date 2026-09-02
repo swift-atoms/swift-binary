@@ -2,7 +2,6 @@ import Binary_Endianness
 import Binary_Standard_Library_Integration
 import Binary_Test_Support
 import Byte
-import Byte_Protocol
 import Testing
 
 @testable import Binary
@@ -28,7 +27,7 @@ extension `Int - Byte serialization Tests`.Unit {
     @Test
     func `round-trip conversion preserves value`() {
         let value: Int = 42
-        let bytes = [UInt8](value)
+        let bytes = [Byte](value)
         let recovered = Int(bytes: bytes)
         #expect(recovered == value)
     }
@@ -36,7 +35,7 @@ extension `Int - Byte serialization Tests`.Unit {
     @Test
     func `little-endian encoding matches expected bytes`() {
         let value: Int = 0x0102_0304_0506_0708
-        let bytes = [UInt8](value, endianness: .little)
+        let bytes = [Byte](value, endianness: .little)
 
         #if arch(x86_64) || arch(arm64)
 
@@ -62,7 +61,7 @@ extension `Int - Byte serialization Tests`.Unit {
     @Test
     func `big-endian encoding matches expected bytes`() {
         let value: Int = 0x0102_0304_0506_0708
-        let bytes = [UInt8](value, endianness: .big)
+        let bytes = [Byte](value, endianness: .big)
 
         #if arch(x86_64) || arch(arm64)
 
@@ -87,7 +86,7 @@ extension `Int - Byte serialization Tests`.Unit {
 
     @Test
     func `decoding with little-endian`() {
-        let bytes: [UInt8] = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08]
+        let bytes = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08].map { Byte(bitPattern: $0) }
         let value = Int(bytes: bytes, endianness: .little)
 
         #if arch(x86_64) || arch(arm64)
@@ -101,7 +100,7 @@ extension `Int - Byte serialization Tests`.Unit {
 
     @Test
     func `decoding with big-endian`() {
-        let bytes: [UInt8] = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08]
+        let bytes = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08].map { Byte(bitPattern: $0) }
         let value = Int(bytes: bytes, endianness: .big)
 
         #if arch(x86_64) || arch(arm64)
@@ -116,7 +115,7 @@ extension `Int - Byte serialization Tests`.Unit {
     @Test
     func `zero value round-trip`() {
         let value: Int = 0
-        let bytes = [UInt8](value)
+        let bytes = [Byte](value)
         let recovered = Int(bytes: bytes)
         #expect(recovered == value)
     }
@@ -124,7 +123,7 @@ extension `Int - Byte serialization Tests`.Unit {
     @Test
     func `negative value round-trip`() {
         let value: Int = -42
-        let bytes = [UInt8](value)
+        let bytes = [Byte](value)
         let recovered = Int(bytes: bytes)
         #expect(recovered == value)
     }
@@ -134,7 +133,7 @@ extension `Int - Byte serialization Tests`.`Edge Case` {
 
     @Test
     func `decoding fails with incorrect byte count`() {
-        let bytes: [UInt8] = [0x01, 0x02, 0x03]
+        let bytes = [0x01, 0x02, 0x03].map { Byte(bitPattern: $0) }
         let value = Int(bytes: bytes)
         #expect(value == nil)
     }
@@ -145,7 +144,7 @@ extension `[Int] - Byte serialization Tests`.Unit {
     @Test
     func `array round-trip conversion`() {
         let values: [Int] = [1, 2, 3, 4, 5]
-        let bytes = [UInt8](serializing: values)
+        let bytes = [Byte](serializing: values)
         let recovered = [Int](bytes: bytes)
         #expect(recovered == values)
     }
@@ -153,7 +152,7 @@ extension `[Int] - Byte serialization Tests`.Unit {
     @Test
     func `empty array round-trip`() {
         let values: [Int] = []
-        let bytes = [UInt8](serializing: values)
+        let bytes = [Byte](serializing: values)
         let recovered = [Int](bytes: bytes)
         #expect(recovered == values)
     }
@@ -161,8 +160,8 @@ extension `[Int] - Byte serialization Tests`.Unit {
     @Test
     func `array with different endianness`() {
         let values: [Int] = [1, 2, 3]
-        let bytesLE = [UInt8](serializing: values, endianness: .little)
-        let bytesBE = [UInt8](serializing: values, endianness: .big)
+        let bytesLE = [Byte](serializing: values, endianness: .little)
+        let bytesBE = [Byte](serializing: values, endianness: .big)
 
         let recoveredLE = [Int](bytes: bytesLE, endianness: .little)
         let recoveredBE = [Int](bytes: bytesBE, endianness: .big)
@@ -174,7 +173,7 @@ extension `[Int] - Byte serialization Tests`.Unit {
     @Test
     func `array with negative values`() {
         let values: [Int] = [-1, -2, -3]
-        let bytes = [UInt8](serializing: values)
+        let bytes = [Byte](serializing: values)
         let recovered = [Int](bytes: bytes)
         #expect(recovered == values)
     }
@@ -185,7 +184,7 @@ extension `[Int] - Byte serialization Tests`.`Edge Case` {
     @Test
     func `array decoding fails with incorrect byte count`() {
 
-        let bytes: [UInt8] = [0x01, 0x02, 0x03]
+        let bytes = [0x01, 0x02, 0x03].map { Byte(bitPattern: $0) }
         let values = [Int](bytes: bytes)
         #expect(values == nil)
     }
