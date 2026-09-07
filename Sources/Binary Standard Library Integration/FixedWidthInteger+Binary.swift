@@ -1,4 +1,4 @@
-public import Binary_Endianness
+public import Binary
 public import Byte
 
 extension FixedWidthInteger {

@@ -12,26 +12,10 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-
-        .library(
-            name: "Binary Endianness",
-            targets: ["Binary Endianness"]
-        ),
-
-        .library(
-            name: "Binary Standard Library Integration",
-            targets: ["Binary Standard Library Integration"]
-        ),
-
-        .library(
-            name: "Binary",
-            targets: ["Binary"]
-        ),
-
-        .library(
-            name: "Binary Test Support",
-            targets: ["Binary Test Support"]
-        ),
+        .library(name: "Binary", targets: ["Binary"]),
+        .library(name: "Binary Standard Library Integration", targets: ["Binary Standard Library Integration"]),
+        .library(name: "Binary Foundation Library Integration", targets: ["Binary Foundation Library Integration"]),
+        .library(name: "Binary Test Support", targets: ["Binary Test Support"]),
     ],
     dependencies: [
         .package(
@@ -40,32 +24,32 @@ let package = Package(
         )
     ],
     targets: [
-
         .target(
             name: "Binary",
-            dependencies: []
-        ),
-
-        .target(
-            name: "Binary Endianness",
             dependencies: [
-                .target(name: "Binary")
-            ]
+            ],
+            path: "Sources/Binary"
         ),
-
         .target(
             name: "Binary Standard Library Integration",
             dependencies: [
                 .target(name: "Binary"),
-                .target(name: "Binary Endianness"),
                 .product(name: "Byte", package: "swift-byte"),
-            ]
+            ],
+            path: "Sources/Binary Standard Library Integration"
         ),
-
+        .target(
+            name: "Binary Foundation Library Integration",
+            dependencies: [
+                .target(name: "Binary"),
+                .target(name: "Binary Standard Library Integration"),
+            ],
+            path: "Sources/Binary Foundation Library Integration"
+        ),
         .target(
             name: "Binary Test Support",
             dependencies: [
-                .target(name: "Binary")
+                .target(name: "Binary"),
             ],
             path: "Tests/Support"
         ),
@@ -73,18 +57,19 @@ let package = Package(
             name: "Binary Tests",
             dependencies: [
                 .target(name: "Binary"),
-                .target(name: "Binary Endianness"),
                 .target(name: "Binary Standard Library Integration"),
                 .target(name: "Binary Test Support"),
                 .product(name: "Byte", package: "swift-byte"),
-            ]
+                .target(name: "Binary Foundation Library Integration"),
+            ],
+            path: "Tests/Binary Tests"
         ),
     ],
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let ecosystem: [SwiftSetting] = [
+for target in package.targets {
+    target.swiftSettings = [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
@@ -93,8 +78,4 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
     ]
-
-    let package: [SwiftSetting] = []
-
-    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }

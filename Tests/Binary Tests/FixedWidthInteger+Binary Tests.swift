@@ -1,4 +1,3 @@
-import Binary_Endianness
 import Binary_Standard_Library_Integration
 import Binary_Test_Support
 import Byte
@@ -22,8 +21,8 @@ extension `FixedWidthInteger+Binary Tests`.Unit {
         let bytes = value.bytes(endianness: .little)
 
         #expect(bytes.count == 2)
-        #expect(bytes[0] == 0x34)
-        #expect(bytes[1] == 0x12)
+        #expect(bytes[0].bitPattern == 0x34)
+        #expect(bytes[1].bitPattern == 0x12)
     }
 
     @Test
@@ -32,8 +31,8 @@ extension `FixedWidthInteger+Binary Tests`.Unit {
         let bytes = value.bytes(endianness: .big)
 
         #expect(bytes.count == 2)
-        #expect(bytes[0] == 0x12)
-        #expect(bytes[1] == 0x34)
+        #expect(bytes[0].bitPattern == 0x12)
+        #expect(bytes[1].bitPattern == 0x34)
     }
 
     @Test
@@ -67,7 +66,7 @@ extension `FixedWidthInteger+Binary Tests`.Unit {
         let value: UInt32 = 0
         let bytes = value.bytes(endianness: .big)
 
-        #expect(bytes.allSatisfy { $0 == 0 })
+        #expect(bytes.allSatisfy { $0.bitPattern == 0 })
         #expect(bytes.count == 4)
     }
 
@@ -86,7 +85,7 @@ extension `FixedWidthInteger+Binary Tests`.Unit {
         let bytes = value.bytes()
 
         #expect(bytes.count == 1)
-        #expect(bytes[0] == 0xFF)
+        #expect(bytes[0].bitPattern == 0xFF)
     }
 
     @Test
@@ -95,7 +94,7 @@ extension `FixedWidthInteger+Binary Tests`.Unit {
         let bigEndian = value.bytes(endianness: .big)
 
         #expect(bigEndian.count == 2)
-        #expect(bigEndian[0] == 0x12)
-        #expect(bigEndian[1] == 0x34)
+        #expect(bigEndian[0].bitPattern == 0x12)
+        #expect(bigEndian[1].bitPattern == 0x34)
     }
 }

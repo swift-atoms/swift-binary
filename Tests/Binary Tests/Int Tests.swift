@@ -1,4 +1,3 @@
-import Binary_Endianness
 import Binary_Standard_Library_Integration
 import Binary_Test_Support
 import Byte
@@ -40,21 +39,21 @@ extension `Int - Byte serialization Tests`.Unit {
         #if arch(x86_64) || arch(arm64)
 
             #expect(bytes.count == 8)
-            #expect(bytes[0] == 0x08)
-            #expect(bytes[1] == 0x07)
-            #expect(bytes[2] == 0x06)
-            #expect(bytes[3] == 0x05)
-            #expect(bytes[4] == 0x04)
-            #expect(bytes[5] == 0x03)
-            #expect(bytes[6] == 0x02)
-            #expect(bytes[7] == 0x01)
+            #expect(bytes[0].bitPattern == 0x08)
+            #expect(bytes[1].bitPattern == 0x07)
+            #expect(bytes[2].bitPattern == 0x06)
+            #expect(bytes[3].bitPattern == 0x05)
+            #expect(bytes[4].bitPattern == 0x04)
+            #expect(bytes[5].bitPattern == 0x03)
+            #expect(bytes[6].bitPattern == 0x02)
+            #expect(bytes[7].bitPattern == 0x01)
         #else
 
             #expect(bytes.count == 4)
-            #expect(bytes[0] == 0x08)
-            #expect(bytes[1] == 0x07)
-            #expect(bytes[2] == 0x06)
-            #expect(bytes[3] == 0x05)
+            #expect(bytes[0].bitPattern == 0x08)
+            #expect(bytes[1].bitPattern == 0x07)
+            #expect(bytes[2].bitPattern == 0x06)
+            #expect(bytes[3].bitPattern == 0x05)
         #endif
     }
 
@@ -66,21 +65,21 @@ extension `Int - Byte serialization Tests`.Unit {
         #if arch(x86_64) || arch(arm64)
 
             #expect(bytes.count == 8)
-            #expect(bytes[0] == 0x01)
-            #expect(bytes[1] == 0x02)
-            #expect(bytes[2] == 0x03)
-            #expect(bytes[3] == 0x04)
-            #expect(bytes[4] == 0x05)
-            #expect(bytes[5] == 0x06)
-            #expect(bytes[6] == 0x07)
-            #expect(bytes[7] == 0x08)
+            #expect(bytes[0].bitPattern == 0x01)
+            #expect(bytes[1].bitPattern == 0x02)
+            #expect(bytes[2].bitPattern == 0x03)
+            #expect(bytes[3].bitPattern == 0x04)
+            #expect(bytes[4].bitPattern == 0x05)
+            #expect(bytes[5].bitPattern == 0x06)
+            #expect(bytes[6].bitPattern == 0x07)
+            #expect(bytes[7].bitPattern == 0x08)
         #else
 
             #expect(bytes.count == 4)
-            #expect(bytes[0] == 0x05)
-            #expect(bytes[1] == 0x06)
-            #expect(bytes[2] == 0x07)
-            #expect(bytes[3] == 0x08)
+            #expect(bytes[0].bitPattern == 0x05)
+            #expect(bytes[1].bitPattern == 0x06)
+            #expect(bytes[2].bitPattern == 0x07)
+            #expect(bytes[3].bitPattern == 0x08)
         #endif
     }
 
