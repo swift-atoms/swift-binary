@@ -6,17 +6,17 @@ import Testing
 @testable import Binary
 
 @Suite
-struct `FixedWidthInteger+Binary Tests` {
-    @Suite struct Unit {}
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
-    @Suite(.serialized) struct Performance {}
+struct `Fixed width integer byte views preserve width and endianness` {
+    @Suite struct `Integer byte views expose each byte in the requested order` {}
+    @Suite struct `No integer byte view boundary cases are defined` {}
+    @Suite struct `No integer byte view integration cases are defined` {}
+    @Suite(.serialized) struct `No integer byte view performance cases are defined` {}
 }
 
-extension `FixedWidthInteger+Binary Tests`.Unit {
+extension `Fixed width integer byte views preserve width and endianness`.`Integer byte views expose each byte in the requested order` {
 
     @Test
-    func `bytes with little endian UInt16`() {
+    func `UInt16 byte views follow little endian order`() {
         let value: UInt16 = 0x1234
         let bytes = value.bytes(endianness: .little)
 
@@ -26,7 +26,7 @@ extension `FixedWidthInteger+Binary Tests`.Unit {
     }
 
     @Test
-    func `bytes with big endian UInt16`() {
+    func `UInt16 byte views follow big endian order`() {
         let value: UInt16 = 0x1234
         let bytes = value.bytes(endianness: .big)
 
@@ -36,7 +36,7 @@ extension `FixedWidthInteger+Binary Tests`.Unit {
     }
 
     @Test
-    func `bytes with little endian UInt32`() {
+    func `UInt32 byte views follow little endian order`() {
         let value: UInt32 = 0x1234_5678
         let bytes = value.bytes(endianness: .little)
 
@@ -45,7 +45,7 @@ extension `FixedWidthInteger+Binary Tests`.Unit {
     }
 
     @Test
-    func `bytes with big endian UInt32`() {
+    func `UInt32 byte views follow big endian order`() {
         let value: UInt32 = 0x1234_5678
         let bytes = value.bytes(endianness: .big)
 
@@ -62,7 +62,7 @@ extension `FixedWidthInteger+Binary Tests`.Unit {
     }
 
     @Test
-    func `bytes with zero value`() {
+    func `Zero integer byte views contain only zero bytes`() {
         let value: UInt32 = 0
         let bytes = value.bytes(endianness: .big)
 
@@ -80,7 +80,7 @@ extension `FixedWidthInteger+Binary Tests`.Unit {
     }
 
     @Test
-    func `bytes works with Int8`() {
+    func `Int8 byte views preserve the stored byte`() {
         let value: Int8 = -1
         let bytes = value.bytes()
 
@@ -89,7 +89,7 @@ extension `FixedWidthInteger+Binary Tests`.Unit {
     }
 
     @Test
-    func `bytes works with Int16`() {
+    func `Int16 byte views preserve the requested byte order`() {
         let value: Int16 = 0x1234
         let bigEndian = value.bytes(endianness: .big)
 

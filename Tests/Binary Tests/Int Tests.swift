@@ -6,22 +6,22 @@ import Testing
 @testable import Binary
 
 @Suite
-struct `Int - Byte serialization Tests` {
-    @Suite struct Unit {}
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
-    @Suite(.serialized) struct Performance {}
+struct `Int serialization preserves signed values and byte order` {
+    @Suite struct `Int values round trip through either byte order` {}
+    @Suite struct `Int decoding rejects an incorrect byte count` {}
+    @Suite struct `No Int serialization integration cases are defined` {}
+    @Suite(.serialized) struct `No Int serialization performance cases are defined` {}
 }
 
 @Suite
-struct `[Int] - Byte serialization Tests` {
-    @Suite struct Unit {}
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
-    @Suite(.serialized) struct Performance {}
+struct `Int array serialization preserves element order and signed values` {
+    @Suite struct `Int arrays round trip through either byte order` {}
+    @Suite struct `Int array decoding rejects incomplete elements` {}
+    @Suite struct `No Int array serialization integration cases are defined` {}
+    @Suite(.serialized) struct `No Int array serialization performance cases are defined` {}
 }
 
-extension `Int - Byte serialization Tests`.Unit {
+extension `Int serialization preserves signed values and byte order`.`Int values round trip through either byte order` {
 
     @Test
     func `round-trip conversion preserves value`() {
@@ -84,7 +84,7 @@ extension `Int - Byte serialization Tests`.Unit {
     }
 
     @Test
-    func `decoding with little-endian`() {
+    func `Int decoding reconstructs a value from little endian bytes`() {
         let bytes = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08].map { Byte(bitPattern: $0) }
         let value = Int(bytes: bytes, endianness: .little)
 
@@ -98,7 +98,7 @@ extension `Int - Byte serialization Tests`.Unit {
     }
 
     @Test
-    func `decoding with big-endian`() {
+    func `Int decoding reconstructs a value from big endian bytes`() {
         let bytes = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08].map { Byte(bitPattern: $0) }
         let value = Int(bytes: bytes, endianness: .big)
 
@@ -112,7 +112,7 @@ extension `Int - Byte serialization Tests`.Unit {
     }
 
     @Test
-    func `zero value round-trip`() {
+    func `Int zero survives byte encoding and decoding`() {
         let value: Int = 0
         let bytes = [Byte](value)
         let recovered = Int(bytes: bytes)
@@ -120,7 +120,7 @@ extension `Int - Byte serialization Tests`.Unit {
     }
 
     @Test
-    func `negative value round-trip`() {
+    func `Negative Int values survive byte encoding and decoding`() {
         let value: Int = -42
         let bytes = [Byte](value)
         let recovered = Int(bytes: bytes)
@@ -128,7 +128,7 @@ extension `Int - Byte serialization Tests`.Unit {
     }
 }
 
-extension `Int - Byte serialization Tests`.`Edge Case` {
+extension `Int serialization preserves signed values and byte order`.`Int decoding rejects an incorrect byte count` {
 
     @Test
     func `decoding fails with incorrect byte count`() {
@@ -138,10 +138,10 @@ extension `Int - Byte serialization Tests`.`Edge Case` {
     }
 }
 
-extension `[Int] - Byte serialization Tests`.Unit {
+extension `Int array serialization preserves element order and signed values`.`Int arrays round trip through either byte order` {
 
     @Test
-    func `array round-trip conversion`() {
+    func `Int arrays survive byte encoding and decoding`() {
         let values: [Int] = [1, 2, 3, 4, 5]
         let bytes = [Byte](serializing: values)
         let recovered = [Int](bytes: bytes)
@@ -149,7 +149,7 @@ extension `[Int] - Byte serialization Tests`.Unit {
     }
 
     @Test
-    func `empty array round-trip`() {
+    func `Empty Int arrays survive byte encoding and decoding`() {
         let values: [Int] = []
         let bytes = [Byte](serializing: values)
         let recovered = [Int](bytes: bytes)
@@ -157,7 +157,7 @@ extension `[Int] - Byte serialization Tests`.Unit {
     }
 
     @Test
-    func `array with different endianness`() {
+    func `Int arrays round trip through both byte orders`() {
         let values: [Int] = [1, 2, 3]
         let bytesLE = [Byte](serializing: values, endianness: .little)
         let bytesBE = [Byte](serializing: values, endianness: .big)
@@ -170,7 +170,7 @@ extension `[Int] - Byte serialization Tests`.Unit {
     }
 
     @Test
-    func `array with negative values`() {
+    func `Int array byte encoding preserves negative elements`() {
         let values: [Int] = [-1, -2, -3]
         let bytes = [Byte](serializing: values)
         let recovered = [Int](bytes: bytes)
@@ -178,7 +178,7 @@ extension `[Int] - Byte serialization Tests`.Unit {
     }
 }
 
-extension `[Int] - Byte serialization Tests`.`Edge Case` {
+extension `Int array serialization preserves element order and signed values`.`Int array decoding rejects incomplete elements` {
 
     @Test
     func `array decoding fails with incorrect byte count`() {

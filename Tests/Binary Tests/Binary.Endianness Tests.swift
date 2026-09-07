@@ -5,15 +5,15 @@ import Testing
 
 extension Binary.Endianness {
     @Suite
-    struct Test {
-        @Suite struct Unit {}
-        @Suite struct `Edge Case` {}
-        @Suite struct Integration {}
-        @Suite(.serialized) struct Performance {}
+    struct `Endianness defines byte order and its opposite` {
+        @Suite struct `Endianness cases distinguish native network and reversed order` {}
+        @Suite struct `No endianness boundary cases are defined` {}
+        @Suite struct `No endianness integration cases are defined` {}
+        @Suite(.serialized) struct `No endianness performance cases are defined` {}
     }
 }
 
-extension Binary.Endianness.Test.Unit {
+extension Binary.Endianness.`Endianness defines byte order and its opposite`.`Endianness cases distinguish native network and reversed order` {
 
     @Test
     func `cases are distinct`() {
@@ -36,7 +36,7 @@ extension Binary.Endianness.Test.Unit {
     }
 
     @Test
-    func `CaseIterable conformance`() {
+    func `Endianness iteration includes both byte orders`() {
         #expect(Binary.Endianness.allCases.count == 2)
         #expect(Binary.Endianness.allCases.contains(.little))
         #expect(Binary.Endianness.allCases.contains(.big))

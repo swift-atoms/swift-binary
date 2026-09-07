@@ -3,7 +3,7 @@ import Byte
 import Testing
 
 @Suite
-struct `RangeReplaceableCollection Binary Tests` {
+struct `Range replaceable collections serialize and decode fixed width integers` {
 
     @Test
     func `Array materializes one integer as bytes`() {
