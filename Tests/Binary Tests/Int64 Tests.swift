@@ -1,4 +1,4 @@
-import Binary_Standard_Library_Integration
+import Binary
 import Binary_Test_Support
 import Byte
 import Testing

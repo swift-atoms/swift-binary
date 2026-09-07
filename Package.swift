@@ -13,8 +13,8 @@ let package = Package(
     ],
     products: [
         .library(name: "Binary", targets: ["Binary"]),
-        .library(name: "Binary Standard Library Integration", targets: ["Binary Standard Library Integration"]),
-        .library(name: "Binary Foundation Library Integration", targets: ["Binary Foundation Library Integration"]),
+
+        .library(name: "Binary Foundation Integration", targets: ["Binary Foundation Integration"]),
         .library(name: "Binary Test Support", targets: ["Binary Test Support"]),
     ],
     dependencies: [
@@ -27,24 +27,17 @@ let package = Package(
         .target(
             name: "Binary",
             dependencies: [
+                .product(name: "Byte", package: "swift-byte"),
             ],
             path: "Sources/Binary"
         ),
+        
         .target(
-            name: "Binary Standard Library Integration",
+            name: "Binary Foundation Integration",
             dependencies: [
                 .target(name: "Binary"),
-                .product(name: "Byte", package: "swift-byte"),
             ],
-            path: "Sources/Binary Standard Library Integration"
-        ),
-        .target(
-            name: "Binary Foundation Library Integration",
-            dependencies: [
-                .target(name: "Binary"),
-                .target(name: "Binary Standard Library Integration"),
-            ],
-            path: "Sources/Binary Foundation Library Integration"
+            path: "Sources/Binary Foundation Integration"
         ),
         .target(
             name: "Binary Test Support",
@@ -57,10 +50,9 @@ let package = Package(
             name: "Binary Tests",
             dependencies: [
                 .target(name: "Binary"),
-                .target(name: "Binary Standard Library Integration"),
                 .target(name: "Binary Test Support"),
                 .product(name: "Byte", package: "swift-byte"),
-                .target(name: "Binary Foundation Library Integration"),
+                .target(name: "Binary Foundation Integration"),
             ],
             path: "Tests/Binary Tests"
         ),

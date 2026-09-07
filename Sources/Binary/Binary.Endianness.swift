@@ -45,5 +45,5 @@ extension Binary.Endianness {
 }
 
 #if !hasFeature(Embedded)
-    extension Binary.Endianness: Codable {}
+extension Binary.Endianness: Swift.Codable {}
 #endif

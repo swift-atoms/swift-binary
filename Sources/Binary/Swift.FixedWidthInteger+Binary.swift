@@ -1,7 +1,6 @@
-public import Binary
 public import Byte
 
-extension FixedWidthInteger {
+extension Swift.FixedWidthInteger {
 
     @inlinable
     public static func bytes(_ value: Self, endianness: Binary.Endianness = .little) -> [Byte] {
