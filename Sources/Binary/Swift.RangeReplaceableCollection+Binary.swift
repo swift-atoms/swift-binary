@@ -3,7 +3,7 @@ public import Byte
 extension Swift.RangeReplaceableCollection where Element: FixedWidthInteger {
 
     @inlinable
-    public init?<Bytes: Collection>(
+    public init?<Bytes: Swift.Collection>(
         bytes: Bytes,
         endianness: Binary.Endianness = .little
     ) where Bytes.Element == Byte {

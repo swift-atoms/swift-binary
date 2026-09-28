@@ -1,0 +1,155 @@
+#if Byte
+import Binary
+import Byte
+import Testing
+
+@Suite
+struct `UInt16 - Byte encoding Tests` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+    @Suite(.serialized) struct Performance {}
+}
+
+extension `UInt16 - Byte encoding Tests`.Unit {
+
+    @Test
+    func `encode to bytes little-endian`() {
+        let value: UInt16 = 0x1234
+        let bytes = value.bytes(endianness: .little)
+        #expect(bytes == [Byte(bitPattern: 0x34), Byte(bitPattern: 0x12)])
+    }
+
+    @Test
+    func `encode to bytes big-endian`() {
+        let value: UInt16 = 0x1234
+        let bytes = value.bytes(endianness: .big)
+        #expect(bytes == [Byte(bitPattern: 0x12), Byte(bitPattern: 0x34)])
+    }
+
+    @Test
+    func `encode zero`() {
+        let value: UInt16 = 0
+        #expect(value.bytes(endianness: .little) == [Byte(bitPattern: 0x00), Byte(bitPattern: 0x00)])
+        #expect(value.bytes(endianness: .big) == [Byte(bitPattern: 0x00), Byte(bitPattern: 0x00)])
+    }
+
+    @Test
+    func `encode max value`() {
+        let value: UInt16 = .max
+        #expect(value.bytes(endianness: .little) == [Byte(bitPattern: 0xFF), Byte(bitPattern: 0xFF)])
+        #expect(value.bytes(endianness: .big) == [Byte(bitPattern: 0xFF), Byte(bitPattern: 0xFF)])
+    }
+
+    @Test
+    func `encode-decode isomorphism little-endian`() {
+
+        let original: UInt16 = 0x1234
+        let bytes = original.bytes(endianness: .little)
+        let recovered = UInt16(bytes: bytes, endianness: .little)
+        #expect(recovered == original)
+    }
+
+    @Test
+    func `encode-decode isomorphism big-endian`() {
+
+        let original: UInt16 = 0xABCD
+        let bytes = original.bytes(endianness: .big)
+        let recovered = UInt16(bytes: bytes, endianness: .big)
+        #expect(recovered == original)
+    }
+
+    @Test
+    func `decode-encode isomorphism`() {
+
+        let originalBytes: [Byte] = [Byte(bitPattern: 0x12), Byte(bitPattern: 0x34)]
+        let value = UInt16(bytes: originalBytes, endianness: .little)
+        let recoveredBytes = value?.bytes(endianness: .little)
+        #expect(recoveredBytes == originalBytes)
+    }
+
+    @Test
+    func `round-trip multiple values`() {
+        let values: [UInt16] = [0, 1, 0xFF, 0x100, 0x1234, 0xABCD, .max]
+
+        for original in values {
+            let bytesLE = original.bytes(endianness: .little)
+            let recoveredLE = UInt16(bytes: bytesLE, endianness: .little)
+            #expect(recoveredLE == original)
+
+            let bytesBE = original.bytes(endianness: .big)
+            let recoveredBE = UInt16(bytes: bytesBE, endianness: .big)
+            #expect(recoveredBE == original)
+        }
+    }
+
+    @Test
+    func `byte count matches memory layout`() {
+        let value: UInt16 = 0x1234
+        let bytes = value.bytes(endianness: .little)
+        #expect(bytes.count == MemoryLayout<UInt16>.size)
+        #expect(bytes.count == 2)
+    }
+}
+
+extension `UInt16 - Byte encoding Tests`.Integration {
+
+    @Test
+    func `round-trip conversion with Array`() {
+        let values: [UInt16] = [100, 200, 300]
+        let bytes = [Byte](serializing: values)
+        let recovered = [UInt16](bytes: bytes)
+        #expect(recovered == values)
+    }
+
+    @Test
+    func `collection works with ArraySlice`() {
+        let values: [UInt16] = [100, 200, 300, 400, 500]
+        let slice = values[1...3]
+
+        let bytes = [Byte](serializing: slice)
+        let recovered = [UInt16](bytes: bytes)
+        #expect(recovered == Array(slice))
+    }
+
+    @Test
+    func `collection works with ContiguousArray`() {
+        let values = ContiguousArray<UInt16>([100, 200, 300])
+        let bytes = [Byte](serializing: values)
+        let recovered = [UInt16](bytes: bytes)
+        #expect(recovered == Array(values))
+    }
+
+    @Test
+    func `collection works with prefix`() {
+        let values: [UInt16] = [100, 200, 300, 400, 500]
+        let prefix = values.prefix(3)
+
+        let bytes = [Byte](serializing: prefix)
+        let recovered = [UInt16](bytes: bytes)
+        #expect(recovered == Array(prefix))
+    }
+
+    @Test
+    func `collection works with suffix`() {
+        let values: [UInt16] = [100, 200, 300, 400, 500]
+        let suffix = values.suffix(2)
+
+        let bytes = [Byte](serializing: suffix)
+        let recovered = [UInt16](bytes: bytes)
+        #expect(recovered == Array(suffix))
+    }
+
+    @Test
+    func `endianness with collection`() {
+        let values: [UInt16] = [0x0102, 0x0304]
+
+        let bytesLE = [Byte](serializing: values, endianness: .little)
+        let bytesBE = [Byte](serializing: values, endianness: .big)
+
+        #expect(bytesLE == [Byte(bitPattern: 0x02), Byte(bitPattern: 0x01), Byte(bitPattern: 0x04), Byte(bitPattern: 0x03)])
+
+        #expect(bytesBE == [Byte(bitPattern: 0x01), Byte(bitPattern: 0x02), Byte(bitPattern: 0x03), Byte(bitPattern: 0x04)])
+    }
+}
+#endif

@@ -13,7 +13,7 @@ extension RangeReplaceableCollection<Byte> {
     }
 
     @inlinable
-    public init<Values: Collection>(
+    public init<Values: Swift.Collection>(
         serializing values: Values,
         endianness: Binary.Endianness = .little
     ) where Values.Element: FixedWidthInteger {
