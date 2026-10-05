@@ -9,6 +9,12 @@ extension Binary.LEB128 {
 }
 
 extension Binary.LEB128.Unsigned: Parsing {
+    public var body: Never {
+        borrowing get {
+            return fatalError("\(Self.self) is a leaf coder: implement parse and serialize directly")
+        }
+    }
+
 
     public typealias Input = ArraySlice<Byte>
 
