@@ -1,7 +1,7 @@
 #if LEB128
 extension Binary.LEB128 {
 
-    public enum Error: Swift.Error, Sendable, Equatable {
+    public enum Error: Swift::Error, Sendable, Equatable {
 
         case overflow(bitWidth: Int)
 

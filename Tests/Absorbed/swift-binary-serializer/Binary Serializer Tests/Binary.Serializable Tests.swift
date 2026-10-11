@@ -274,7 +274,7 @@ extension `Binary.Serializable Tests`.`Edge Case` {
 
     @Test
     func `withSerializedBytes propagates typed errors`() throws {
-        enum Fault: Swift.Error { case test }
+        enum Fault: Swift::Error { case test }
         let greeting = Greeting(name: "Swift.Error")
 
         #expect(throws: Fault.self) {

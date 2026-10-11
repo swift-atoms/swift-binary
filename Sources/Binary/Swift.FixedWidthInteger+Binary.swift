@@ -1,6 +1,6 @@
 public import Byte
 
-extension Swift.FixedWidthInteger {
+extension Swift::FixedWidthInteger {
 
     @inlinable
     public static func bytes(_ value: Self, endianness: Binary.Endianness = .little) -> [Byte] {
@@ -17,7 +17,7 @@ extension Swift.FixedWidthInteger {
 
     @inlinable
     public init?(
-        bytes: some Swift.Collection<Byte>,
+        bytes: some Swift::Collection<Byte>,
         endianness: Binary.Endianness = .little
     ) {
         let size = MemoryLayout<Self>.size
@@ -36,7 +36,7 @@ extension Swift.FixedWidthInteger {
 
     @inlinable
     public init?(
-        _ bytes: borrowing Swift.Span<Byte>,
+        _ bytes: borrowing Swift::Span<Byte>,
         endianness: Binary.Endianness = .little
     ) {
         let size = MemoryLayout<Self>.size

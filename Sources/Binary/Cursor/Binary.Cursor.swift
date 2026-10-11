@@ -317,7 +317,7 @@ extension Binary.Cursor where Storage: ~Copyable & ~Escapable {
 extension Binary.Cursor where Storage: ~Copyable & ~Escapable {
 
     @inlinable
-    public var readableBytes: Swift.Span<Byte> {
+    public var readableBytes: Swift::Span<Byte> {
         @_lifetime(borrow self)
         borrowing get {
             let readerIdx = Int(_readerIndex.rawValue)
@@ -327,7 +327,7 @@ extension Binary.Cursor where Storage: ~Copyable & ~Escapable {
     }
 
     @inlinable
-    public func withReadableBytes<R, E: Swift.Error>(
+    public func withReadableBytes<R, E: Swift::Error>(
         _ body: (UnsafeRawBufferPointer) throws(E) -> R
     ) throws(E) -> R {
         let span = readableBytes

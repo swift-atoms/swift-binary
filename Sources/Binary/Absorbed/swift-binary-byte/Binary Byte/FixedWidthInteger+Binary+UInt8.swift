@@ -27,7 +27,7 @@ extension Array where Element: FixedWidthInteger {
 
     @_disfavoredOverload
     @inlinable
-    public init?<C: Swift.Collection>(bytes: C, endianness: Binary.Endianness = .little)
+    public init?<C: Swift::Collection>(bytes: C, endianness: Binary.Endianness = .little)
     where C.Element == UInt8 {
         self.init(bytes: bytes.lazy.map(Byte.init(bitPattern:)), endianness: endianness)
     }

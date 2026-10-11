@@ -1,5 +1,5 @@
 #if Cursor
-public enum __BinaryReaderError: Swift.Error, Sendable, Equatable {
+public enum __BinaryReaderError: Swift::Error, Sendable, Equatable {
 
     case bounds(value: Int, lower: Int, upper: Int)
 

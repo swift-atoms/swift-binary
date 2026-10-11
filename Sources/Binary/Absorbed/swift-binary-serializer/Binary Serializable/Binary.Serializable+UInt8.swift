@@ -13,9 +13,9 @@ extension Binary.Serializable {
     }
 
     @_disfavoredOverload
-    public static func withSerializedBytes<R, E: Swift.Error>(
+    public static func withSerializedBytes<R, E: Swift::Error>(
         _ value: Self,
-        _ body: (borrowing Swift.Span<UInt8>) throws(E) -> R
+        _ body: (borrowing Swift::Span<UInt8>) throws(E) -> R
     ) throws(E) -> R {
         var byteBuffer: ContiguousArray<Byte> = []
         Self.serialize(value, into: &byteBuffer)
@@ -24,8 +24,8 @@ extension Binary.Serializable {
     }
 
     @_disfavoredOverload
-    public func withSerializedBytes<R, E: Swift.Error>(
-        _ body: (borrowing Swift.Span<UInt8>) throws(E) -> R
+    public func withSerializedBytes<R, E: Swift::Error>(
+        _ body: (borrowing Swift::Span<UInt8>) throws(E) -> R
     ) throws(E) -> R {
         try Self.withSerializedBytes(self, body)
     }

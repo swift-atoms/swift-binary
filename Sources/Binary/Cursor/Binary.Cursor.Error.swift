@@ -1,5 +1,5 @@
 #if Cursor
-public enum __BinaryCursorError: Swift.Error, Sendable, Equatable {
+public enum __BinaryCursorError: Swift::Error, Sendable, Equatable {
 
     case invariant(reader: Int, writer: Int)
 

@@ -27,7 +27,7 @@ extension `Binary.Reader Tests`.Unit {
     }
 
     @Test
-    func `init with custom index preserves position`() throws(Binary.Reader<Swift.Span<Byte>>.Error)
+    func `init with custom index preserves position`() throws(Binary.Reader<Swift::Span<Byte>>.Error)
     {
         let bytes: [Byte] = [Byte(bitPattern: 1), Byte(bitPattern: 2), Byte(bitPattern: 3), Byte(bitPattern: 4), Byte(bitPattern: 5)]
         let reader = try Binary.Reader(storage: bytes.span, readerIndex: 2)
@@ -51,7 +51,7 @@ extension `Binary.Reader Tests`.Unit {
     }
 
     @Test
-    func `moveReaderIndex advances reader by offset`() throws(Binary.Reader<Swift.Span<Byte>>.Error)
+    func `moveReaderIndex advances reader by offset`() throws(Binary.Reader<Swift::Span<Byte>>.Error)
     {
         let bytes: [Byte] = [Byte(bitPattern: 1), Byte(bitPattern: 2), Byte(bitPattern: 3), Byte(bitPattern: 4), Byte(bitPattern: 5)]
         var reader = Binary.Reader(storage: bytes.span)
@@ -65,7 +65,7 @@ extension `Binary.Reader Tests`.Unit {
 
     @Test
     func `moveReaderIndex allows negative offset for rewind`() throws(Binary.Reader<
-        Swift.Span<Byte>
+        Swift::Span<Byte>
     >.Error) {
         let bytes: [Byte] = [Byte(bitPattern: 1), Byte(bitPattern: 2), Byte(bitPattern: 3), Byte(bitPattern: 4), Byte(bitPattern: 5)]
         var reader = try Binary.Reader(storage: bytes.span, readerIndex: 3)
@@ -88,7 +88,7 @@ extension `Binary.Reader Tests`.Unit {
     }
 
     @Test
-    func `setReaderIndex sets absolute position`() throws(Binary.Reader<Swift.Span<Byte>>.Error) {
+    func `setReaderIndex sets absolute position`() throws(Binary.Reader<Swift::Span<Byte>>.Error) {
         let bytes: [Byte] = [Byte(bitPattern: 1), Byte(bitPattern: 2), Byte(bitPattern: 3), Byte(bitPattern: 4), Byte(bitPattern: 5)]
         var reader = Binary.Reader(storage: bytes.span)
 
@@ -110,7 +110,7 @@ extension `Binary.Reader Tests`.Unit {
     }
 
     @Test
-    func `reset clears reader index to zero`() throws(Binary.Reader<Swift.Span<Byte>>.Error) {
+    func `reset clears reader index to zero`() throws(Binary.Reader<Swift::Span<Byte>>.Error) {
         let bytes: [Byte] = [Byte(bitPattern: 1), Byte(bitPattern: 2), Byte(bitPattern: 3), Byte(bitPattern: 4), Byte(bitPattern: 5)]
         var reader = try Binary.Reader(storage: bytes.span, readerIndex: 3)
 
@@ -131,7 +131,7 @@ extension `Binary.Reader Tests`.Unit {
     }
 
     @Test
-    func `hasRemaining returns false at end`() throws(Binary.Reader<Swift.Span<Byte>>.Error) {
+    func `hasRemaining returns false at end`() throws(Binary.Reader<Swift::Span<Byte>>.Error) {
         let bytes: [Byte] = [Byte(bitPattern: 1), Byte(bitPattern: 2), Byte(bitPattern: 3)]
         let reader = try Binary.Reader(storage: bytes.span, readerIndex: 3)
 
@@ -140,7 +140,7 @@ extension `Binary.Reader Tests`.Unit {
     }
 
     @Test
-    func `isAtEnd returns true at end`() throws(Binary.Reader<Swift.Span<Byte>>.Error) {
+    func `isAtEnd returns true at end`() throws(Binary.Reader<Swift::Span<Byte>>.Error) {
         let bytes: [Byte] = [Byte(bitPattern: 1), Byte(bitPattern: 2), Byte(bitPattern: 3)]
         let reader = try Binary.Reader(storage: bytes.span, readerIndex: 3)
 
@@ -158,7 +158,7 @@ extension `Binary.Reader Tests`.Unit {
     }
 
     @Test
-    func `withRemainingBytes provides correct slice`() throws(Binary.Reader<Swift.Span<Byte>>.Error)
+    func `withRemainingBytes provides correct slice`() throws(Binary.Reader<Swift::Span<Byte>>.Error)
     {
         let bytes: [Byte] = [Byte(bitPattern: 1), Byte(bitPattern: 2), Byte(bitPattern: 3), Byte(bitPattern: 4), Byte(bitPattern: 5)]
         let reader = try Binary.Reader(storage: bytes.span, readerIndex: 2)
@@ -178,7 +178,7 @@ extension `Binary.Reader Tests`.Unit {
 
     @Test
     func `withRemainingBytes returns empty for exhausted reader`() throws(Binary.Reader<
-        Swift.Span<Byte>
+        Swift::Span<Byte>
     >.Error) {
         let bytes: [Byte] = [Byte(bitPattern: 1), Byte(bitPattern: 2), Byte(bitPattern: 3)]
         let reader = try Binary.Reader(storage: bytes.span, readerIndex: 3)
@@ -209,7 +209,7 @@ extension `Binary.Reader Tests`.`Edge Case` {
         let bytes: [Byte] = [Byte(bitPattern: 1), Byte(bitPattern: 2), Byte(bitPattern: 3)]
         var reader = Binary.Reader(storage: bytes.span)
 
-        do throws(Binary.Reader<Swift.Span<Byte>>.Error) {
+        do throws(Binary.Reader<Swift::Span<Byte>>.Error) {
             try reader.moveReaderIndex(by: Difference(10))
             Issue.record("expected Binary.Reader.Error.bounds")
         } catch {
@@ -222,7 +222,7 @@ extension `Binary.Reader Tests`.`Edge Case` {
         let bytes: [Byte] = [Byte(bitPattern: 1), Byte(bitPattern: 2), Byte(bitPattern: 3)]
         var reader = Binary.Reader(storage: bytes.span)
 
-        do throws(Binary.Reader<Swift.Span<Byte>>.Error) {
+        do throws(Binary.Reader<Swift::Span<Byte>>.Error) {
             try reader.setReaderIndex(to: 10)
             Issue.record("expected Binary.Reader.Error.bounds")
         } catch {
@@ -232,7 +232,7 @@ extension `Binary.Reader Tests`.`Edge Case` {
 
     @Test
     func `withRemainingBytes propagates typed error`() {
-        enum Fault: Swift.Error { case expected }
+        enum Fault: Swift::Error { case expected }
 
         let bytes: [Byte] = [Byte(bitPattern: 1), Byte(bitPattern: 2), Byte(bitPattern: 3)]
         let reader = Binary.Reader(storage: bytes.span)

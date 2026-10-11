@@ -88,7 +88,6 @@ let package = Package(
                 .target(name: "Binary"),
                 .target(name: "Binary Test Support"),
                 .product(name: "Byte", package: "swift-byte"),
-                .target(name: "Binary Foundation Integration"),
             ],
             path: "Tests/Binary Tests"
         ),

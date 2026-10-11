@@ -203,7 +203,7 @@ extension Binary.Reader where Storage: ~Copyable & ~Escapable {
 extension Binary.Reader where Storage: ~Copyable & ~Escapable {
 
     @inlinable
-    public var remainingBytes: Swift.Span<Byte> {
+    public var remainingBytes: Swift::Span<Byte> {
         @_lifetime(borrow self)
         borrowing get {
             let readerIdx = Int(_readerIndex.rawValue)
@@ -213,7 +213,7 @@ extension Binary.Reader where Storage: ~Copyable & ~Escapable {
     }
 
     @inlinable
-    public func withRemainingBytes<R, E: Swift.Error>(
+    public func withRemainingBytes<R, E: Swift::Error>(
         _ body: (UnsafeRawBufferPointer) throws(E) -> R
     ) throws(E) -> R {
         let span = remainingBytes

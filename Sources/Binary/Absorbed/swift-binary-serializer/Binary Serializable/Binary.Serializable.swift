@@ -41,17 +41,17 @@ extension Binary.Serializable {
 
 extension Binary.Serializable {
 
-    public static func withSerializedBytes<R, E: Swift.Error>(
+    public static func withSerializedBytes<R, E: Swift::Error>(
         _ value: Self,
-        _ body: (borrowing Swift.Span<Byte>) throws(E) -> R
+        _ body: (borrowing Swift::Span<Byte>) throws(E) -> R
     ) throws(E) -> R {
         var buffer: ContiguousArray<Byte> = []
         Self.serialize(value, into: &buffer)
         return try body(buffer.span)
     }
 
-    public func withSerializedBytes<R, E: Swift.Error>(
-        _ body: (borrowing Swift.Span<Byte>) throws(E) -> R
+    public func withSerializedBytes<R, E: Swift::Error>(
+        _ body: (borrowing Swift::Span<Byte>) throws(E) -> R
     ) throws(E) -> R {
         try Self.withSerializedBytes(self, body)
     }
@@ -127,9 +127,9 @@ extension Binary.Serializable where Self: RawRepresentable, Self.RawValue == [UI
 
 extension Binary.Serializable where Self: RawRepresentable, Self.RawValue == [Byte] {
 
-    public static func withSerializedBytes<R, E: Swift.Error>(
+    public static func withSerializedBytes<R, E: Swift::Error>(
         _ value: Self,
-        _ body: (borrowing Swift.Span<Byte>) throws(E) -> R
+        _ body: (borrowing Swift::Span<Byte>) throws(E) -> R
     ) throws(E) -> R {
 
         let bytes = value.rawValue
@@ -139,9 +139,9 @@ extension Binary.Serializable where Self: RawRepresentable, Self.RawValue == [By
 
 extension Binary.Serializable where Self: RawRepresentable, Self.RawValue: StringProtocol {
 
-    public static func withSerializedBytes<R, E: Swift.Error>(
+    public static func withSerializedBytes<R, E: Swift::Error>(
         _ value: Self,
-        _ body: (borrowing Swift.Span<Byte>) throws(E) -> R
+        _ body: (borrowing Swift::Span<Byte>) throws(E) -> R
     ) throws(E) -> R {
 
         let raw = value.rawValue
@@ -178,9 +178,9 @@ extension Tagged: Binary.Serializable where Underlying: Binary.Serializable {
         Underlying.serialize(value.underlying, into: &buffer)
     }
 
-    public static func withSerializedBytes<R, E: Swift.Error>(
+    public static func withSerializedBytes<R, E: Swift::Error>(
         _ value: Self,
-        _ body: (borrowing Swift.Span<Byte>) throws(E) -> R
+        _ body: (borrowing Swift::Span<Byte>) throws(E) -> R
     ) throws(E) -> R {
         try Underlying.withSerializedBytes(value.underlying, body)
     }
@@ -195,9 +195,9 @@ extension Array: Binary.Serializable where Element == Byte {
         buffer.append(contentsOf: value)
     }
 
-    public static func withSerializedBytes<R, E: Swift.Error>(
+    public static func withSerializedBytes<R, E: Swift::Error>(
         _ value: Self,
-        _ body: (borrowing Swift.Span<Byte>) throws(E) -> R
+        _ body: (borrowing Swift::Span<Byte>) throws(E) -> R
     ) throws(E) -> R {
         try body(value.span)
     }
@@ -212,9 +212,9 @@ extension ContiguousArray: Binary.Serializable where Element == Byte {
         buffer.append(contentsOf: value)
     }
 
-    public static func withSerializedBytes<R, E: Swift.Error>(
+    public static func withSerializedBytes<R, E: Swift::Error>(
         _ value: Self,
-        _ body: (borrowing Swift.Span<Byte>) throws(E) -> R
+        _ body: (borrowing Swift::Span<Byte>) throws(E) -> R
     ) throws(E) -> R {
         try body(value.span)
     }
