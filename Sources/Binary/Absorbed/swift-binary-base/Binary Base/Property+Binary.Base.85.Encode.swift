@@ -1,6 +1,5 @@
 #if Base
 public import Byte
-import Byte
 public import Property
 
 extension Property where Tag == Binary.Base.Encode, Base == Binary.Base.`85` {

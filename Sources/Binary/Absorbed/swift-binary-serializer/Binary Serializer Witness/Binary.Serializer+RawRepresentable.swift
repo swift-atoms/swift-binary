@@ -1,7 +1,6 @@
 #if Serializer
 public import Byte
-internal import Byte
-public import Serializer
+import Serializer
 
 extension Binary.Serializer where Value: RawRepresentable, Value.RawValue: StringProtocol {
 
