@@ -1,6 +1,6 @@
 #if Base
-extension Binary {
+    extension Binary {
 
-    public enum Base: Sendable {}
-}
+        public enum Base: Sendable {}
+    }
 #endif

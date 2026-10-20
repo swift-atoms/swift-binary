@@ -13,7 +13,9 @@ struct `UInt32 byte encoding preserves values and endianness` {
     @Suite(.serialized) struct `No UInt32 byte encoding performance cases are defined` {}
 }
 
-extension `UInt32 byte encoding preserves values and endianness`.`UInt32 values round trip across byte orders and numeric boundaries` {
+extension `UInt32 byte encoding preserves values and endianness`
+    .`UInt32 values round trip across byte orders and numeric boundaries`
+{
 
     @Test
     func `Integer encoding writes bytes in little endian order`() {
@@ -32,15 +34,25 @@ extension `UInt32 byte encoding preserves values and endianness`.`UInt32 values 
     @Test
     func `Integer encoding represents zero with bytes that are all zero`() {
         let value: UInt32 = 0
-        #expect(value.bytes(endianness: .little) == [0x00, 0x00, 0x00, 0x00].map { Byte(bitPattern: $0) })
-        #expect(value.bytes(endianness: .big) == [0x00, 0x00, 0x00, 0x00].map { Byte(bitPattern: $0) })
+        #expect(
+            value.bytes(endianness: .little)
+                == [0x00, 0x00, 0x00, 0x00].map { Byte(bitPattern: $0) }
+        )
+        #expect(
+            value.bytes(endianness: .big) == [0x00, 0x00, 0x00, 0x00].map { Byte(bitPattern: $0) }
+        )
     }
 
     @Test
     func `Integer encoding preserves the maximum unsigned value`() {
         let value: UInt32 = .max
-        #expect(value.bytes(endianness: .little) == [0xFF, 0xFF, 0xFF, 0xFF].map { Byte(bitPattern: $0) })
-        #expect(value.bytes(endianness: .big) == [0xFF, 0xFF, 0xFF, 0xFF].map { Byte(bitPattern: $0) })
+        #expect(
+            value.bytes(endianness: .little)
+                == [0xFF, 0xFF, 0xFF, 0xFF].map { Byte(bitPattern: $0) }
+        )
+        #expect(
+            value.bytes(endianness: .big) == [0xFF, 0xFF, 0xFF, 0xFF].map { Byte(bitPattern: $0) }
+        )
     }
 
     @Test

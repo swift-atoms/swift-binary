@@ -13,7 +13,9 @@ struct `UInt16 byte encoding preserves values and endianness` {
     @Suite(.serialized) struct `No UInt16 byte encoding performance cases are defined` {}
 }
 
-extension `UInt16 byte encoding preserves values and endianness`.`UInt16 values round trip across byte orders and numeric boundaries` {
+extension `UInt16 byte encoding preserves values and endianness`
+    .`UInt16 values round trip across byte orders and numeric boundaries`
+{
 
     @Test
     func `Integer encoding writes bytes in little endian order`() {
@@ -94,7 +96,9 @@ extension `UInt16 byte encoding preserves values and endianness`.`UInt16 values 
     }
 }
 
-extension `UInt16 byte encoding preserves values and endianness`.`UInt16 byte encoding interoperates with different collection views` {
+extension `UInt16 byte encoding preserves values and endianness`
+    .`UInt16 byte encoding interoperates with different collection views`
+{
 
     @Test
     func `Array byte conversion round trips UInt16 values`() {

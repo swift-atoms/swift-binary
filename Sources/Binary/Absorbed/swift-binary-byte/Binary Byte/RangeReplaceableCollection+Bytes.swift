@@ -1,29 +1,29 @@
 #if Byte
-public import Byte
+    public import Byte
 
-extension RangeReplaceableCollection<Byte> {
+    extension RangeReplaceableCollection<Byte> {
 
-    @inlinable
+        @inlinable
 
-    public static func append<S: StringProtocol, Buffer: RangeReplaceableCollection>(
-        utf8 string: S,
-        to buffer: inout Buffer
-    ) where Buffer.Element == Byte {
-        buffer.append(contentsOf: string.utf8.lazy.map(Byte.init(bitPattern:)))
+        public static func append<S: StringProtocol, Buffer: RangeReplaceableCollection>(
+            utf8 string: S,
+            to buffer: inout Buffer
+        ) where Buffer.Element == Byte {
+            buffer.append(contentsOf: string.utf8.lazy.map(Byte.init(bitPattern:)))
+        }
+
+        @inlinable
+        public mutating func append(utf8 string: some StringProtocol) {
+            Self.append(utf8: string, to: &self)
+        }
+
+        @inlinable
+
+        public static func append<Buffer: RangeReplaceableCollection>(
+            _ value: Byte,
+            to buffer: inout Buffer
+        ) where Buffer.Element == Byte {
+            buffer.append(contentsOf: CollectionOfOne(value))
+        }
     }
-
-    @inlinable
-    public mutating func append(utf8 string: some StringProtocol) {
-        Self.append(utf8: string, to: &self)
-    }
-
-    @inlinable
-
-    public static func append<Buffer: RangeReplaceableCollection>(
-        _ value: Byte,
-        to buffer: inout Buffer
-    ) where Buffer.Element == Byte {
-        buffer.append(contentsOf: CollectionOfOne(value))
-    }
-}
 #endif

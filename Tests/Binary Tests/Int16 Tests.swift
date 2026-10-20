@@ -13,7 +13,9 @@ struct `Int16 byte encoding preserves values and endianness` {
     @Suite(.serialized) struct `No Int16 byte encoding performance cases are defined` {}
 }
 
-extension `Int16 byte encoding preserves values and endianness`.`Int16 values round trip across byte orders and numeric boundaries` {
+extension `Int16 byte encoding preserves values and endianness`
+    .`Int16 values round trip across byte orders and numeric boundaries`
+{
 
     @Test
     func `Integer encoding writes bytes in little endian order`() {

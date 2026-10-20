@@ -1,6 +1,6 @@
 #if Base
-extension Binary.Base {
+    extension Binary.Base {
 
-    public enum Decode: Sendable {}
-}
+        public enum Decode: Sendable {}
+    }
 #endif

@@ -1,43 +1,43 @@
 #if Serializer
-public import Byte
-import Serializer
+    public import Byte
+    import Serializer
 
-extension Binary.Serializer where Value: RawRepresentable, Value.RawValue: StringProtocol {
+    extension Binary.Serializer where Value: RawRepresentable, Value.RawValue: StringProtocol {
 
-    public static var rawValue: Binary.Serializer<Value> {
-        Binary.Serializer { value, buffer in
+        public static var rawValue: Binary.Serializer<Value> {
+            Binary.Serializer { value, buffer in
 
-            let raw = value.rawValue
-            buffer.append(contentsOf: raw.utf8.lazy.map(Byte.init(bitPattern:)))
+                let raw = value.rawValue
+                buffer.append(contentsOf: raw.utf8.lazy.map(Byte.init(bitPattern:)))
+            }
         }
     }
-}
 
-extension Binary.Serializer where Value: RawRepresentable, Value.RawValue == [Byte] {
+    extension Binary.Serializer where Value: RawRepresentable, Value.RawValue == [Byte] {
 
-    public static var rawValue: Binary.Serializer<Value> {
-        Binary.Serializer { value, buffer in
+        public static var rawValue: Binary.Serializer<Value> {
+            Binary.Serializer { value, buffer in
 
-            buffer.append(contentsOf: value.rawValue)
+                buffer.append(contentsOf: value.rawValue)
+            }
         }
     }
-}
 
-extension Binary.Serializer where Value: RawRepresentable, Value.RawValue == [UInt8] {
+    extension Binary.Serializer where Value: RawRepresentable, Value.RawValue == [UInt8] {
 
-    public static var rawValue: Binary.Serializer<Value> {
-        Binary.Serializer { value, buffer in
+        public static var rawValue: Binary.Serializer<Value> {
+            Binary.Serializer { value, buffer in
 
-            buffer.append(contentsOf: value.rawValue.lazy.map(Byte.init(bitPattern:)))
+                buffer.append(contentsOf: value.rawValue.lazy.map(Byte.init(bitPattern:)))
+            }
         }
     }
-}
 
-extension Binary.Serializer where Value: RawRepresentable, Value.RawValue: FixedWidthInteger {
-    public static func rawValue(endianness: Binary.Endianness) -> Binary.Serializer<Value> {
-        Binary.Serializer { value, buffer in
-            buffer.append(contentsOf: [Byte](value.rawValue, endianness: endianness))
+    extension Binary.Serializer where Value: RawRepresentable, Value.RawValue: FixedWidthInteger {
+        public static func rawValue(endianness: Binary.Endianness) -> Binary.Serializer<Value> {
+            Binary.Serializer { value, buffer in
+                buffer.append(contentsOf: [Byte](value.rawValue, endianness: endianness))
+            }
         }
     }
-}
 #endif

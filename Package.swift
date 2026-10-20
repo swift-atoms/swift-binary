@@ -17,9 +17,15 @@ let package = Package(
         .library(name: "Binary Foundation Integration", targets: ["Binary Foundation Integration"]),
         .library(name: "Binary Test Support", targets: ["Binary Test Support"]),
         .library(name: "Binary Base Test Support", targets: ["Binary Base Test Support"]),
-        .library(name: "Binary LEB128 Parser Test Support", targets: ["Binary LEB128 Parser Test Support"]),
+        .library(
+            name: "Binary LEB128 Parser Test Support",
+            targets: ["Binary LEB128 Parser Test Support"]
+        ),
         .library(name: "Binary LEB128 Test Support", targets: ["Binary LEB128 Test Support"]),
-        .library(name: "Binary Serializer Test Support", targets: ["Binary Serializer Test Support"]),
+        .library(
+            name: "Binary Serializer Test Support",
+            targets: ["Binary Serializer Test Support"]
+        ),
 
         .library(name: "Binary Cursor Test Support", targets: ["Binary Cursor Test Support"]),
     ],
@@ -29,7 +35,10 @@ let package = Package(
         .trait(name: "LEB128", description: "Absorbed LEB128 integration"),
         .trait(name: "Serializer", description: "Absorbed Serializer integration"),
 
-        .trait(name: "Cursor", description: "Checked binary positions and explicitly wrapping unchecked movement"),
+        .trait(
+            name: "Cursor",
+            description: "Checked binary positions and explicitly wrapping unchecked movement"
+        ),
     ],
     dependencies: [
         .package(
@@ -71,14 +80,14 @@ let package = Package(
         .target(
             name: "Binary Foundation Integration",
             dependencies: [
-                .target(name: "Binary"),
+                .target(name: "Binary")
             ],
             path: "Sources/Binary Foundation Integration"
         ),
         .target(
             name: "Binary Test Support",
             dependencies: [
-                .target(name: "Binary"),
+                .target(name: "Binary")
             ],
             path: "Tests/Support"
         ),
@@ -91,15 +100,63 @@ let package = Package(
             ],
             path: "Tests/Binary Tests"
         ),
-        .testTarget(name: "Absorbed swift-binary-base Binary Base Tests", dependencies: [.target(name: "Binary"), .target(name: "Binary Base Test Support"), .product(name: "Byte", package: "swift-byte")], path: "Tests/Absorbed/swift-binary-base/Binary Base Tests"),
-        .target(name: "Binary Base Test Support", dependencies: [.target(name: "Binary")], path: "Tests/Absorbed/swift-binary-base/Support"),
-        .testTarget(name: "Absorbed swift-binary-byte Binary Byte Tests", dependencies: [.target(name: "Binary"), .product(name: "Byte", package: "swift-byte")], path: "Tests/Absorbed/swift-binary-byte/Binary Byte Tests"),
-        .testTarget(name: "Absorbed swift-binary-leb128 Binary LEB128 Parser Tests", dependencies: [.target(name: "Binary"), .target(name: "Binary LEB128 Parser Test Support"), .product(name: "Byte", package: "swift-byte")], path: "Tests/Absorbed/swift-binary-leb128/Binary LEB128 Parser Tests"),
-        .testTarget(name: "Absorbed swift-binary-leb128 Binary LEB128 Tests", dependencies: [.target(name: "Binary"), .target(name: "Binary LEB128 Test Support"), .product(name: "Byte", package: "swift-byte")], path: "Tests/Absorbed/swift-binary-leb128/Binary LEB128 Tests"),
-        .target(name: "Binary LEB128 Parser Test Support", dependencies: [.target(name: "Binary")], path: "Tests/Absorbed/swift-binary-leb128/Parser Support"),
-        .target(name: "Binary LEB128 Test Support", dependencies: [.target(name: "Binary")], path: "Tests/Absorbed/swift-binary-leb128/Support"),
-        .testTarget(name: "Absorbed swift-binary-serializer Binary Serializer Tests", dependencies: [.target(name: "Binary"), .target(name: "Binary Serializer Test Support"), .product(name: "Byte", package: "swift-byte")], path: "Tests/Absorbed/swift-binary-serializer/Binary Serializer Tests"),
-        .target(name: "Binary Serializer Test Support", dependencies: [.target(name: "Binary")], path: "Tests/Absorbed/swift-binary-serializer/Support"),
+        .testTarget(
+            name: "Absorbed swift-binary-base Binary Base Tests",
+            dependencies: [
+                .target(name: "Binary"), .target(name: "Binary Base Test Support"),
+                .product(name: "Byte", package: "swift-byte"),
+            ],
+            path: "Tests/Absorbed/swift-binary-base/Binary Base Tests"
+        ),
+        .target(
+            name: "Binary Base Test Support",
+            dependencies: [.target(name: "Binary")],
+            path: "Tests/Absorbed/swift-binary-base/Support"
+        ),
+        .testTarget(
+            name: "Absorbed swift-binary-byte Binary Byte Tests",
+            dependencies: [.target(name: "Binary"), .product(name: "Byte", package: "swift-byte")],
+            path: "Tests/Absorbed/swift-binary-byte/Binary Byte Tests"
+        ),
+        .testTarget(
+            name: "Absorbed swift-binary-leb128 Binary LEB128 Parser Tests",
+            dependencies: [
+                .target(name: "Binary"), .target(name: "Binary LEB128 Parser Test Support"),
+                .product(name: "Byte", package: "swift-byte"),
+            ],
+            path: "Tests/Absorbed/swift-binary-leb128/Binary LEB128 Parser Tests"
+        ),
+        .testTarget(
+            name: "Absorbed swift-binary-leb128 Binary LEB128 Tests",
+            dependencies: [
+                .target(name: "Binary"), .target(name: "Binary LEB128 Test Support"),
+                .product(name: "Byte", package: "swift-byte"),
+            ],
+            path: "Tests/Absorbed/swift-binary-leb128/Binary LEB128 Tests"
+        ),
+        .target(
+            name: "Binary LEB128 Parser Test Support",
+            dependencies: [.target(name: "Binary")],
+            path: "Tests/Absorbed/swift-binary-leb128/Parser Support"
+        ),
+        .target(
+            name: "Binary LEB128 Test Support",
+            dependencies: [.target(name: "Binary")],
+            path: "Tests/Absorbed/swift-binary-leb128/Support"
+        ),
+        .testTarget(
+            name: "Absorbed swift-binary-serializer Binary Serializer Tests",
+            dependencies: [
+                .target(name: "Binary"), .target(name: "Binary Serializer Test Support"),
+                .product(name: "Byte", package: "swift-byte"),
+            ],
+            path: "Tests/Absorbed/swift-binary-serializer/Binary Serializer Tests"
+        ),
+        .target(
+            name: "Binary Serializer Test Support",
+            dependencies: [.target(name: "Binary")],
+            path: "Tests/Absorbed/swift-binary-serializer/Support"
+        ),
 
         .target(
             name: "Binary Cursor Test Support",
@@ -125,14 +182,15 @@ let package = Package(
 )
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    target.swiftSettings = (target.swiftSettings ?? []) + [
-        .strictMemorySafety(),
-        .enableUpcomingFeature("ExistentialAny"),
-        .enableUpcomingFeature("InternalImportsByDefault"),
-        .enableUpcomingFeature("MemberImportVisibility"),
-        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-        .enableUpcomingFeature("InferIsolatedConformances"),
-        .enableExperimentalFeature("Lifetimes"),
-        .treatAllWarnings(as: .error),
-    ]
+    target.swiftSettings =
+        (target.swiftSettings ?? []) + [
+            .strictMemorySafety(),
+            .enableUpcomingFeature("ExistentialAny"),
+            .enableUpcomingFeature("InternalImportsByDefault"),
+            .enableUpcomingFeature("MemberImportVisibility"),
+            .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+            .enableUpcomingFeature("InferIsolatedConformances"),
+            .enableExperimentalFeature("Lifetimes"),
+            .treatAllWarnings(as: .error),
+        ]
 }

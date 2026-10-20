@@ -1,9 +1,9 @@
 #if Base
-extension Binary.Base {
+    extension Binary.Base {
 
-    public struct `16`: Sendable {
+        public struct `16`: Sendable {
 
-        public init() {}
+            public init() {}
+        }
     }
-}
 #endif

@@ -1,6 +1,6 @@
 #if LEB128
-extension Binary {
+    extension Binary {
 
-    public enum LEB128 {}
-}
+        public enum LEB128 {}
+    }
 #endif

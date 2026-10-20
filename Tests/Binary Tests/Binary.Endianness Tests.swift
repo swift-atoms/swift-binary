@@ -13,7 +13,9 @@ extension Binary.Endianness {
     }
 }
 
-extension Binary.Endianness.`Endianness defines byte order and its opposite`.`Endianness cases distinguish native network and reversed order` {
+extension Binary.Endianness.`Endianness defines byte order and its opposite`
+    .`Endianness cases distinguish native network and reversed order`
+{
 
     @Test
     func `cases are distinct`() {

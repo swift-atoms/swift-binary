@@ -1,3 +1,3 @@
 #if Serializer
-@_exported public import Byte
+    @_exported public import Byte
 #endif

@@ -1,13 +1,13 @@
 #if Serializer
-import Byte
+    import Byte
 
-extension Int64 {
+    extension Int64 {
 
-    @inlinable
-    public static func serializer(endianness: Binary.Endianness) -> Binary.Serializer<Int64> {
-        Binary.Serializer { value, output in
-            output.append(contentsOf: [Byte](value, endianness: endianness))
+        @inlinable
+        public static func serializer(endianness: Binary.Endianness) -> Binary.Serializer<Int64> {
+            Binary.Serializer { value, output in
+                output.append(contentsOf: [Byte](value, endianness: endianness))
+            }
         }
     }
-}
 #endif

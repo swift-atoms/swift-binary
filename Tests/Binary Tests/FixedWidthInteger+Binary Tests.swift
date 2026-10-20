@@ -13,7 +13,9 @@ struct `Fixed width integer byte views preserve width and endianness` {
     @Suite(.serialized) struct `No integer byte view performance cases are defined` {}
 }
 
-extension `Fixed width integer byte views preserve width and endianness`.`Integer byte views expose each byte in the requested order` {
+extension `Fixed width integer byte views preserve width and endianness`
+    .`Integer byte views expose each byte in the requested order`
+{
 
     @Test
     func `UInt16 byte views follow little endian order`() {

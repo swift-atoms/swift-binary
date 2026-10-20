@@ -1,10 +1,10 @@
 #if Base
-public import Property
+    public import Property
 
-extension Binary.Base.`16` {
+    extension Binary.Base.`16` {
 
-    public static var decode: Property<Binary.Base.Decode, Self> {
-        Property<Binary.Base.Decode, Self>(.init())
+        public static var decode: Property<Binary.Base.Decode, Self> {
+            Property<Binary.Base.Decode, Self>(.init())
+        }
     }
-}
 #endif

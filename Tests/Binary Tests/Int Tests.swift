@@ -21,7 +21,9 @@ struct `Int array serialization preserves element order and signed values` {
     @Suite(.serialized) struct `No Int array serialization performance cases are defined` {}
 }
 
-extension `Int serialization preserves signed values and byte order`.`Int values round trip through either byte order` {
+extension `Int serialization preserves signed values and byte order`
+    .`Int values round trip through either byte order`
+{
 
     @Test
     func `round-trip conversion preserves value`() {
@@ -128,7 +130,9 @@ extension `Int serialization preserves signed values and byte order`.`Int values
     }
 }
 
-extension `Int serialization preserves signed values and byte order`.`Int decoding rejects an incorrect byte count` {
+extension `Int serialization preserves signed values and byte order`
+    .`Int decoding rejects an incorrect byte count`
+{
 
     @Test
     func `decoding fails with incorrect byte count`() {
@@ -138,7 +142,9 @@ extension `Int serialization preserves signed values and byte order`.`Int decodi
     }
 }
 
-extension `Int array serialization preserves element order and signed values`.`Int arrays round trip through either byte order` {
+extension `Int array serialization preserves element order and signed values`
+    .`Int arrays round trip through either byte order`
+{
 
     @Test
     func `Int arrays survive byte encoding and decoding`() {
@@ -178,7 +184,9 @@ extension `Int array serialization preserves element order and signed values`.`I
     }
 }
 
-extension `Int array serialization preserves element order and signed values`.`Int array decoding rejects incomplete elements` {
+extension `Int array serialization preserves element order and signed values`
+    .`Int array decoding rejects incomplete elements`
+{
 
     @Test
     func `array decoding fails with incorrect byte count`() {

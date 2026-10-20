@@ -13,7 +13,9 @@ struct `Int32 byte encoding preserves values and endianness` {
     @Suite(.serialized) struct `No Int32 byte encoding performance cases are defined` {}
 }
 
-extension `Int32 byte encoding preserves values and endianness`.`Int32 values round trip across byte orders and numeric boundaries` {
+extension `Int32 byte encoding preserves values and endianness`
+    .`Int32 values round trip across byte orders and numeric boundaries`
+{
 
     @Test
     func `Integer encoding writes bytes in little endian order`() {
@@ -32,29 +34,49 @@ extension `Int32 byte encoding preserves values and endianness`.`Int32 values ro
     @Test
     func `Integer encoding represents zero with bytes that are all zero`() {
         let value: Int32 = 0
-        #expect(value.bytes(endianness: .little) == [0x00, 0x00, 0x00, 0x00].map { Byte(bitPattern: $0) })
-        #expect(value.bytes(endianness: .big) == [0x00, 0x00, 0x00, 0x00].map { Byte(bitPattern: $0) })
+        #expect(
+            value.bytes(endianness: .little)
+                == [0x00, 0x00, 0x00, 0x00].map { Byte(bitPattern: $0) }
+        )
+        #expect(
+            value.bytes(endianness: .big) == [0x00, 0x00, 0x00, 0x00].map { Byte(bitPattern: $0) }
+        )
     }
 
     @Test
     func `Integer encoding preserves the maximum positive value`() {
         let value: Int32 = .max
-        #expect(value.bytes(endianness: .little) == [0xFF, 0xFF, 0xFF, 0x7F].map { Byte(bitPattern: $0) })
-        #expect(value.bytes(endianness: .big) == [0x7F, 0xFF, 0xFF, 0xFF].map { Byte(bitPattern: $0) })
+        #expect(
+            value.bytes(endianness: .little)
+                == [0xFF, 0xFF, 0xFF, 0x7F].map { Byte(bitPattern: $0) }
+        )
+        #expect(
+            value.bytes(endianness: .big) == [0x7F, 0xFF, 0xFF, 0xFF].map { Byte(bitPattern: $0) }
+        )
     }
 
     @Test
     func `Integer encoding preserves negative values`() {
         let value: Int32 = -1
-        #expect(value.bytes(endianness: .little) == [0xFF, 0xFF, 0xFF, 0xFF].map { Byte(bitPattern: $0) })
-        #expect(value.bytes(endianness: .big) == [0xFF, 0xFF, 0xFF, 0xFF].map { Byte(bitPattern: $0) })
+        #expect(
+            value.bytes(endianness: .little)
+                == [0xFF, 0xFF, 0xFF, 0xFF].map { Byte(bitPattern: $0) }
+        )
+        #expect(
+            value.bytes(endianness: .big) == [0xFF, 0xFF, 0xFF, 0xFF].map { Byte(bitPattern: $0) }
+        )
     }
 
     @Test
     func `Integer encoding preserves the minimum negative value`() {
         let value: Int32 = .min
-        #expect(value.bytes(endianness: .little) == [0x00, 0x00, 0x00, 0x80].map { Byte(bitPattern: $0) })
-        #expect(value.bytes(endianness: .big) == [0x80, 0x00, 0x00, 0x00].map { Byte(bitPattern: $0) })
+        #expect(
+            value.bytes(endianness: .little)
+                == [0x00, 0x00, 0x00, 0x80].map { Byte(bitPattern: $0) }
+        )
+        #expect(
+            value.bytes(endianness: .big) == [0x80, 0x00, 0x00, 0x00].map { Byte(bitPattern: $0) }
+        )
     }
 
     @Test
