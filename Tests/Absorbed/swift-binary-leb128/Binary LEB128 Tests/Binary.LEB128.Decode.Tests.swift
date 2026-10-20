@@ -142,8 +142,7 @@
         }
 
         @Test
-        func `signed rejects final byte straddling width with mismatched sign (positive overflow)`()
-        {
+        func `signed rejects final byte straddling width with mismatched sign (positive overflow)`() {
 
             #expect(throws: Binary.LEB128.Error.overflow(bitWidth: 8)) {
                 try decodeSigned([0x80, 0x01], Int8.self)
@@ -151,8 +150,7 @@
         }
 
         @Test
-        func `signed rejects final byte straddling width with mismatched sign (negative overflow)`()
-        {
+        func `signed rejects final byte straddling width with mismatched sign (negative overflow)`() {
 
             #expect(throws: Binary.LEB128.Error.overflow(bitWidth: 8)) {
                 try decodeSigned([0xFF, 0x7E], Int8.self)

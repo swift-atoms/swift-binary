@@ -5,8 +5,7 @@
 
         @_disfavoredOverload
         @inlinable
-        public static func bytes(_ value: Self, endianness: Binary.Endianness = .little) -> [UInt8]
-        {
+        public static func bytes(_ value: Self, endianness: Binary.Endianness = .little) -> [UInt8] {
             let typed: [Byte] = Self.bytes(value, endianness: endianness)
             return typed.map(\.bitPattern)
         }
