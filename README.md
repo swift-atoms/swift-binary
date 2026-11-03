@@ -21,7 +21,7 @@ Use this package to turn fixed-width integers into `Byte` sequences and back wit
 The core API never throws; it returns optionals. The optional surfaces throw typed errors:
 
 - `Binary.LEB128.Error`: `.overflow(bitWidth:)` when the value does not fit the target type, `.unterminated` when the input ends before a byte with a clear continuation bit.
-- `Binary.Cursor.Error`: `.invariant(reader:writer:)` when the reader would pass the writer, `.bounds(_:value:lower:upper:)` when a position leaves the valid range, `.overflow(_:)` when index arithmetic overflows. The `Field` argument is `.reader` or `.writer`.
+- `Binary.Cursor.Error`: `.invariant(reader:writer:)` when the reader would pass the writer, `.bounds(_:value:lower:upper:)` when a position leaves the valid range, `.overflow(_:)` when index arithmetic overflows. The `Binary.Cursor.Error.Field` argument is `.reader` or `.writer`.
 - `Binary.Reader.Error`: `.bounds(value:lower:upper:)` and `.overflow`.
 
 All three are `Sendable` and `Equatable`. A cursor or reader method that throws leaves the indices unchanged; a LEB128 parser that throws has already consumed the bytes it read.
@@ -42,7 +42,7 @@ let word = UInt16(bytes: buffer, endianness: .little)        // 0x1234
 
 ## Base encodings
 
-The `Base` trait adds ``Binary.Base.`16` ``, `` `32` ``, `` `58` ``, `` `62` ``, `` `64` `` and `` `85` ``, each with static `encode` and `decode` callables.
+This trait adds ``Binary.Base.`16` ``, `` `32` ``, `` `58` ``, `` `62` ``, `` `64` `` and `` `85` ``, each with static `encode` and `decode` callables.
 
 - Base 16, 32 and 64 encode `[Byte]` to `String` with a caller-supplied alphabet; decode returns `[Byte]?`. Base 32 and 64 take an optional `pad` byte: encode appends it, decode strips trailing pad bytes.
 - Base 58, 62 and 85 encode a `UInt64` as a positional number (zero is the alphabet's first byte); decode returns `UInt64?` and is `nil` on overflow.
@@ -55,18 +55,18 @@ The `Byte` trait adds disfavoured `[UInt8]` overloads: `bytes(endianness:)` retu
 
 ## LEB128
 
-The `LEB128` trait adds `[Byte](leb128:)` for signed and unsigned integers, and the parsers `Binary.LEB128.Unsigned<T>` and `Binary.LEB128.Signed<T>`, whose `parse(_:)` consumes only the bytes of one value from an `ArraySlice<Byte>`. Decoding is strict: an encoding longer than the target width allows throws `.overflow`, even when the extra bytes are zero. `Binary.LEB128.Decode.unsigned` and `.signed` decode one byte at a time for callers that drive their own loop.
+This trait adds `[Byte](leb128:)` for signed and unsigned integers, and the parsers `Binary.LEB128.Unsigned<T>` and `Binary.LEB128.Signed<T>`, whose `parse(_:)` consumes only the bytes of one value from an `ArraySlice<Byte>`. Decoding is strict: an encoding longer than the target width allows throws `.overflow`, even when the extra bytes are zero. `Binary.LEB128.Decode.unsigned` and `.signed` decode one byte at a time for callers that drive their own loop.
 
 ## Serialization
 
-The `Serializer` trait adds two ways to write a value:
+This trait adds two ways to write a value:
 
 - `Binary.Serializable`, a protocol with one requirement, `static func serialize(_:into:)`. Conformers get `bytes`, `serialize(into:)`, `withSerializedBytes(_:)` (a borrowed `Span<Byte>`), `String(_:)`, and `append(_:)` and `init(_:)` on byte collections. `[Byte]`, `ContiguousArray<Byte>`, `ArraySlice<Byte>` and `Tagged` over a serializable value conform. `RawRepresentable` conformers with a string, `[Byte]`, `[UInt8]` or integer raw value get a default; the integer default uses the native byte order.
 - `Binary.Serializer<Value>`, a witness wrapping a closure that appends to `[Byte]`, with `serializeToArray(_:)` and `serializeAppending(_:to:)`. `Int8` through `UInt64` each have `serializer(endianness:)`, and `.rawValue` (or `.rawValue(endianness:)` for integer raw values) serializes raw-representable values. Pick the witness when the byte order must be explicit or a type needs more than one encoding.
 
 ## Cursor
 
-The `Cursor` trait adds two noncopyable, nonescapable position trackers over storage that exposes a `Span` of `Byte`. Neither writes to the storage.
+This trait adds two noncopyable, nonescapable position trackers over storage that exposes a `Span` of `Byte`. Neither writes to the storage.
 
 - `Binary.Reader` has one `readerIndex` (an `Ordinal`) with `0 <= readerIndex <= count`, plus `remainingCount`, `hasRemaining`, `isAtEnd` and `remainingBytes`.
 - `Binary.Cursor` has a `readerIndex` and a `writerIndex` with `0 <= readerIndex <= writerIndex <= count`; `readableBytes` is the span between them. Both indices start at zero, so nothing is readable until the writer moves.
