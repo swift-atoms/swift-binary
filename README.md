@@ -1,73 +1,26 @@
 # swift-binary
 
-Use this package to turn fixed-width integers into `Byte` sequences and back with an explicit byte order. Optional surfaces add text encodings (Base 16 to 85), LEB128 variable-length integers, a serialization protocol and witness, and bounds-checked read and write positions over a byte span.
+Use this package when bytes must have an exact, explicit layout: fixed-width integers written and read in a chosen byte order, bytes or integers rendered as Base 16, 32, 58, 62, 64 or 85 text, LEB128 variable-length integers, values serialized into a byte buffer, or a read and write position tracked over a byte span. Start from `Binary.Endianness` with the integer and byte-collection extensions; for the other tasks start from ``Binary.Base.`64` `` (and its siblings), `Binary.LEB128.Unsigned<T>` and `Binary.LEB128.Signed<T>`, `Binary.Serializable` or `Binary.Serializer<Value>`, and `Binary.Reader<Storage>` or `Binary.Cursor<Storage>`. The `Byte` type itself comes from swift-byte; for parsing or serializing that is not about byte layout, use the `Parsing` and `Serializing` protocols from swift-parser and swift-serializer, which `Binary.LEB128.Unsigned<T>`, `Binary.LEB128.Signed<T>` and `Binary.Serializer<Value>` conform to.
 
-## Model
+## Laws
 
-- `Binary.Endianness` is `.little` or `.big`. `.native` is the build target's order, `.network` is `.big`, and `opposite` (or prefix `!`) swaps them.
-- Every `FixedWidthInteger` gains `bytes(endianness:)` (returns `[Byte]`, or any `RangeReplaceableCollection` of `Byte`), `bytes(into:endianness:)` (appends to a sink), and the failable `init?(bytes:endianness:)` and `init?(_: Span<Byte>, endianness:)`.
-- A `RangeReplaceableCollection` of `Byte` gains `init(_:endianness:)` for one integer, `init(serializing:endianness:)` for a collection of integers, and `append(_:endianness:)`.
-- A `RangeReplaceableCollection` of integers gains `init?(bytes:endianness:)`, which splits the bytes into `MemoryLayout<Element>.size` chunks.
-- All results are new values; nothing is shared or retained.
-
-## Rules
-
-- `endianness` defaults to `.little` everywhere it has a default.
-- An integer always encodes to exactly `MemoryLayout<Self>.size` bytes. Signed values keep their two's-complement bit pattern.
-- Decoding one integer returns `nil` unless the byte count equals its size. Decoding a collection returns `nil` unless the byte count is a multiple of the element size.
-
-## Error Handling
-
-The core API never throws; it returns optionals. The optional surfaces throw typed errors:
-
-- `Binary.LEB128.Error`: `.overflow(bitWidth:)` when the value does not fit the target type, `.unterminated` when the input ends before a byte with a clear continuation bit.
-- `Binary.Cursor.Error`: `.invariant(reader:writer:)` when the reader would pass the writer, `.bounds(_:value:lower:upper:)` when a position leaves the valid range, `.overflow(_:)` when index arithmetic overflows. The `Binary.Cursor.Error.Field` argument is `.reader` or `.writer`.
-- `Binary.Reader.Error`: `.bounds(value:lower:upper:)` and `.overflow`.
-
-All three are `Sendable` and `Equatable`. A cursor or reader method that throws leaves the indices unchanged; a LEB128 parser that throws has already consumed the bytes it read.
-
-## Example
-
-```swift
-import Binary
-
-let bytes = [Byte](serializing: [UInt16(1), 2, 3], endianness: .big)
-// 00 01 00 02 00 03
-let values = [UInt16](bytes: bytes, endianness: .big)       // [1, 2, 3]
-
-var buffer = ContiguousArray<Byte>()
-buffer.append(UInt16(0x1234), endianness: .little)           // 34 12
-let word = UInt16(bytes: buffer, endianness: .little)        // 0x1234
-```
-
-## Base encodings
-
-This trait adds ``Binary.Base.`16` ``, `` `32` ``, `` `58` ``, `` `62` ``, `` `64` `` and `` `85` ``, each with static `encode` and `decode` callables.
-
-- Base 16, 32 and 64 encode `[Byte]` to `String` with a caller-supplied alphabet; decode returns `[Byte]?`. Base 32 and 64 take an optional `pad` byte: encode appends it, decode strips trailing pad bytes.
-- Base 58, 62 and 85 encode a `UInt64` as a positional number (zero is the alphabet's first byte); decode returns `UInt64?` and is `nil` on overflow.
-- Base 62 has built-in alphabets: ``Binary.Base.`62`.Alphabet`` with `.standard` (the default: digits, then uppercase, then lowercase), `.gmp` and `.inverted`, plus `digit(_:)` and `isValid(_:)` per byte.
-- Decode returns `nil` for any byte outside the alphabet; Base 16 decode also returns `nil` for odd-length input. An alphabet of the wrong length, or a Base 62 alphabet with a repeated byte, is a precondition failure.
-
-## UInt8 interop
-
-The `Byte` trait adds disfavoured `[UInt8]` overloads: `bytes(endianness:)` returning `[UInt8]`, `init?(bytes: [UInt8], endianness:)`, `[T](bytes:endianness:)` from a `UInt8` collection, and `[UInt8].append(_:endianness:)` for each standard integer width (`Int` and `UInt` require an explicit endianness). It also adds `append(utf8:)` on byte collections.
-
-## LEB128
-
-This trait adds `[Byte](leb128:)` for signed and unsigned integers, and the parsers `Binary.LEB128.Unsigned<T>` and `Binary.LEB128.Signed<T>`, whose `parse(_:)` consumes only the bytes of one value from an `ArraySlice<Byte>`. Decoding is strict: an encoding longer than the target width allows throws `.overflow`, even when the extra bytes are zero. `Binary.LEB128.Decode.unsigned` and `.signed` decode one byte at a time for callers that drive their own loop.
-
-## Serialization
-
-This trait adds two ways to write a value:
-
-- `Binary.Serializable`, a protocol with one requirement, `static func serialize(_:into:)`. Conformers get `bytes`, `serialize(into:)`, `withSerializedBytes(_:)` (a borrowed `Span<Byte>`), `String(_:)`, and `append(_:)` and `init(_:)` on byte collections. `[Byte]`, `ContiguousArray<Byte>`, `ArraySlice<Byte>` and `Tagged` over a serializable value conform. `RawRepresentable` conformers with a string, `[Byte]`, `[UInt8]` or integer raw value get a default; the integer default uses the native byte order.
-- `Binary.Serializer<Value>`, a witness wrapping a closure that appends to `[Byte]`, with `serializeToArray(_:)` and `serializeAppending(_:to:)`. `Int8` through `UInt64` each have `serializer(endianness:)`, and `.rawValue` (or `.rawValue(endianness:)` for integer raw values) serializes raw-representable values. Pick the witness when the byte order must be explicit or a type needs more than one encoding.
-
-## Cursor
-
-This trait adds two noncopyable, nonescapable position trackers over storage that exposes a `Span` of `Byte`. Neither writes to the storage.
-
-- `Binary.Reader` has one `readerIndex` (an `Ordinal`) with `0 <= readerIndex <= count`, plus `remainingCount`, `hasRemaining`, `isAtEnd` and `remainingBytes`.
-- `Binary.Cursor` has a `readerIndex` and a `writerIndex` with `0 <= readerIndex <= writerIndex <= count`; `readableBytes` is the span between them. Both indices start at zero, so nothing is readable until the writer moves.
-- `moveReaderIndex(by:)`, `moveWriterIndex(by:)` (taking a `Difference`), `setReaderIndex(to:)` and `setWriterIndex(to:)` throw on any violation. Each has an `__unchecked:` variant that traps instead; the unchecked moves wrap the offset arithmetic. `reset()` returns the indices to zero.
+- An integer encodes to exactly `MemoryLayout<Self>.size` bytes holding its two's-complement bit pattern, so `Swift.Int` and `Swift.UInt` are 8 bytes on 64-bit targets and 4 on 32-bit ones.
+- Decoding with the same `Binary.Endianness` is the inverse of encoding, in both directions: bytes to integer to bytes gives back the same bytes.
+- Decoding one integer yields `nil` unless the byte count equals its size. Decoding a collection of integers yields `nil` unless the byte count is a multiple of the element size; empty input decodes to an empty collection.
+- `Binary.Endianness.native` is fixed when the code is compiled, `Binary.Endianness.network` is `.big`, and `opposite` (also prefix `!`) undoes itself.
+- Base 16, 32 and 64 encode a byte array. Base 58, 62 and 85 encode one `Swift.UInt64` as a positional number, most significant digit first. Zero becomes the alphabet's first byte.
+- Decoding fails (`nil`) on any byte outside the alphabet, on Base 16 input of odd length, and on a Base 58, 62 or 85 value above `Swift.UInt64.max`.
+- With a `pad` byte, Base 32 encoding pads the output to a multiple of 8 characters and Base 64 to a multiple of 4. Decoding strips every trailing pad byte, then decodes leniently: it does not check how many pad bytes there were, and it drops leftover bits instead of rejecting them.
+- `[Byte](leb128:)` always produces the shortest encoding. Signed values stop as soon as the sign bit of the last group extends to the rest of the value.
+- Decoding accepts encodings longer than the shortest form, as long as they do not use more 7-bit groups than the target width needs. It throws `.overflow(bitWidth:)` for a longer encoding even if the extra groups are zero, and for a final group whose bits beyond the width are not zero (unsigned) or do not repeat the sign (signed).
+- On success, `parse(_:)` removes exactly the bytes of one value from the front of the slice and leaves the rest, with the slice's indices preserved. On `.overflow` it has already removed the rejected byte and every byte before it. On `.unterminated` it has removed all of the input.
+- One `Binary.LEB128.Decode.unsigned` or `Binary.LEB128.Decode.signed` step that throws leaves `result` and `shift` untouched. A `shift` that is negative or at least the type's bit width is rejected as `.overflow`.
+- Every conversion on a `Binary.Serializable` value (`bytes`, `serialize(into:)`, `append(_:)`, the array initialisers, `String`) goes through its single static `serialize(_:into:)`. Serializing appends to the buffer and never clears it.
+- `withSerializedBytes` lends the bytes only for the duration of the closure.
+- `String(_:)` decodes the bytes as UTF-8 and replaces invalid sequences instead of failing.
+- The default `Binary.Serializable` conformance for an integer-backed raw-representable type writes in `Binary.Endianness.native` order, so its bytes differ between targets. `Binary.Serializer<Value>.rawValue(endianness:)` and the integer `serializer(endianness:)` witnesses always use the order you pass in. For `Swift.Int8` and `Swift.UInt8` that order has no effect.
+- `Binary.Reader<Storage>` keeps `0 <= readerIndex <= count`. `Binary.Cursor<Storage>` keeps `0 <= readerIndex <= writerIndex <= count`. `count` is the storage's span length, read once at initialisation. Neither type reads or writes the bytes; each only tracks positions over them. A new cursor starts with both indices at zero, so nothing is readable until the writer index moves forward.
+- Every throwing operation either succeeds completely or throws and leaves both indices as they were. For `Binary.Cursor<Storage>`, the reader passing the writer (or the writer falling behind the reader) is `.invariant`. The writer passing `count`, or the reader going below zero, is `.bounds`. An offset or position that does not fit in `Swift.Int`, or arithmetic that overflows, is `.overflow`. For `Binary.Reader<Storage>`, any position outside `0...count` is `.bounds`.
+- The `Binary.Cursor<Storage>` initialiser that takes explicit indices checks that the reader does not pass the writer before it checks the writer against `count`.
+- The `__unchecked:` variants check the same conditions with `precondition` and trap instead of throwing. Their moves add the offset with wrapping arithmetic, so an offset or a sum outside the `Swift.Int` range wraps around before the precondition runs.
+- `reset()` sets every index back to zero, which leaves a `Binary.Cursor<Storage>` with nothing readable.
