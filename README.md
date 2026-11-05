@@ -8,7 +8,7 @@ Use this package when bytes must have an exact, explicit layout: fixed-width int
 - Decoding with the same `Binary.Endianness` is the inverse of encoding, in both directions: bytes to integer to bytes gives back the same bytes.
 - Decoding one integer yields `nil` unless the byte count equals its size. Decoding a collection of integers yields `nil` unless the byte count is a multiple of the element size; empty input decodes to an empty collection.
 - `Binary.Endianness.native` is fixed when the code is compiled, `Binary.Endianness.network` is `.big`, and `opposite` (also prefix `!`) undoes itself.
-- Base 16, 32 and 64 encode a byte array. Base 58, 62 and 85 encode one `Swift.UInt64` as a positional number, most significant digit first. Zero becomes the alphabet's first byte.
+- Base 16, 32 and 64 encode a byte array. Base 58, 62 and 85 encode one `Swift.UInt64` as a positional number, most significant digit first. Zero becomes the alphabet's first byte. A custom alphabet with the wrong number of bytes traps.
 - Decoding fails (`nil`) on any byte outside the alphabet, on Base 16 input of odd length, and on a Base 58, 62 or 85 value above `Swift.UInt64.max`.
 - With a `pad` byte, Base 32 encoding pads the output to a multiple of 8 characters and Base 64 to a multiple of 4. Decoding strips every trailing pad byte, then decodes leniently: it does not check how many pad bytes there were, and it drops leftover bits instead of rejecting them.
 - `[Byte](leb128:)` always produces the shortest encoding. Signed values stop as soon as the sign bit of the last group extends to the rest of the value.
