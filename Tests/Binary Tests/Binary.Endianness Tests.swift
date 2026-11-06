@@ -3,7 +3,9 @@ import Testing
 
 @testable import Binary
 
-extension Binary.Endianness {
+enum `Binary.Endianness Tests` {}
+
+extension `Binary.Endianness Tests` {
     @Suite
     struct `Endianness defines byte order and its opposite` {
         @Suite struct `Endianness cases distinguish native network and reversed order` {}
@@ -13,7 +15,7 @@ extension Binary.Endianness {
     }
 }
 
-extension Binary.Endianness.`Endianness defines byte order and its opposite`
+extension `Binary.Endianness Tests`.`Endianness defines byte order and its opposite`
     .`Endianness cases distinguish native network and reversed order`
 {
 
