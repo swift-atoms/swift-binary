@@ -5,23 +5,41 @@ import Testing
 
 @testable import Binary
 
-@Suite
-struct `Int serialization preserves signed values and byte order` {
+enum `Int Tests` {}
+
+extension `Int Tests` {
+    @Suite
+    struct `Int serialization preserves signed values and byte order` {
+    }
+}
+
+extension `Int Tests`.`Int serialization preserves signed values and byte order` {
     @Suite struct `Int values round trip through either byte order` {}
+
     @Suite struct `Int decoding rejects an incorrect byte count` {}
+
     @Suite struct `No Int serialization integration cases are defined` {}
+
     @Suite(.serialized) struct `No Int serialization performance cases are defined` {}
 }
 
-@Suite
-struct `Int array serialization preserves element order and signed values` {
+extension `Int Tests` {
+    @Suite
+    struct `Int array serialization preserves element order and signed values` {
+    }
+}
+
+extension `Int Tests`.`Int array serialization preserves element order and signed values` {
     @Suite struct `Int arrays round trip through either byte order` {}
+
     @Suite struct `Int array decoding rejects incomplete elements` {}
+
     @Suite struct `No Int array serialization integration cases are defined` {}
+
     @Suite(.serialized) struct `No Int array serialization performance cases are defined` {}
 }
 
-extension `Int serialization preserves signed values and byte order`
+extension `Int Tests`.`Int serialization preserves signed values and byte order`
     .`Int values round trip through either byte order`
 {
 
@@ -130,7 +148,7 @@ extension `Int serialization preserves signed values and byte order`
     }
 }
 
-extension `Int serialization preserves signed values and byte order`
+extension `Int Tests`.`Int serialization preserves signed values and byte order`
     .`Int decoding rejects an incorrect byte count`
 {
 
@@ -142,7 +160,7 @@ extension `Int serialization preserves signed values and byte order`
     }
 }
 
-extension `Int array serialization preserves element order and signed values`
+extension `Int Tests`.`Int array serialization preserves element order and signed values`
     .`Int arrays round trip through either byte order`
 {
 
@@ -184,7 +202,7 @@ extension `Int array serialization preserves element order and signed values`
     }
 }
 
-extension `Int array serialization preserves element order and signed values`
+extension `Int Tests`.`Int array serialization preserves element order and signed values`
     .`Int array decoding rejects incomplete elements`
 {
 

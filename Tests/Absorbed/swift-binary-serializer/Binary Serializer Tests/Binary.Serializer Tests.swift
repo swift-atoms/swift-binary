@@ -130,27 +130,29 @@
         }
     }
 
-    @Suite struct `Explicit raw value serialization` {
-        @Test func `string backed values use the selected binary representation`() {
-            #expect(
-                Binary.Serializer<RawCommand>.rawValue.serializeToArray(.ok).map(\.bitPattern) == [
-                    79, 75,
-                ]
-            )
+extension `Binary.Serializer Tests` {
+        @Suite struct `Explicit raw value serialization` {
+            @Test func `string backed values use the selected binary representation`() {
+                #expect(
+                    Binary.Serializer<RawCommand>.rawValue.serializeToArray(.ok).map(\.bitPattern) == [
+                        79, 75,
+                    ]
+                )
+            }
+            @Test func `integer backed values select endianness explicitly`() {
+                let value = RawNumber(rawValue: 0x1234)
+                #expect(
+                    Binary.Serializer<RawNumber>.rawValue(endianness: .big).serializeToArray(value).map(
+                        \.bitPattern
+                    ) == [0x12, 0x34]
+                )
+                #expect(
+                    Binary.Serializer<RawNumber>.rawValue(endianness: .little).serializeToArray(value)
+                        .map(\.bitPattern) == [0x34, 0x12]
+                )
+            }
         }
-        @Test func `integer backed values select endianness explicitly`() {
-            let value = RawNumber(rawValue: 0x1234)
-            #expect(
-                Binary.Serializer<RawNumber>.rawValue(endianness: .big).serializeToArray(value).map(
-                    \.bitPattern
-                ) == [0x12, 0x34]
-            )
-            #expect(
-                Binary.Serializer<RawNumber>.rawValue(endianness: .little).serializeToArray(value)
-                    .map(\.bitPattern) == [0x34, 0x12]
-            )
-        }
-    }
+}
     private enum RawCommand: String { case ok = "OK" }
     private struct RawNumber: RawRepresentable { var rawValue: UInt16 }
 #endif

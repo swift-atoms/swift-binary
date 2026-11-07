@@ -5,15 +5,25 @@ import Testing
 
 @testable import Binary
 
-@Suite
-struct `UInt64 byte encoding preserves values and endianness` {
+enum `UInt64 Tests` {}
+
+extension `UInt64 Tests` {
+    @Suite
+    struct `UInt64 byte encoding preserves values and endianness` {
+    }
+}
+
+extension `UInt64 Tests`.`UInt64 byte encoding preserves values and endianness` {
     @Suite struct `UInt64 values round trip across byte orders and numeric boundaries` {}
+
     @Suite struct `No UInt64 byte encoding boundary cases are defined` {}
+
     @Suite struct `No UInt64 byte encoding integration cases are defined` {}
+
     @Suite(.serialized) struct `No UInt64 byte encoding performance cases are defined` {}
 }
 
-extension `UInt64 byte encoding preserves values and endianness`
+extension `UInt64 Tests`.`UInt64 byte encoding preserves values and endianness`
     .`UInt64 values round trip across byte orders and numeric boundaries`
 {
 

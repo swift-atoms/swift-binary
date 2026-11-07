@@ -3,23 +3,29 @@
     import Byte
     import Testing
 
-    @Suite
-    struct `Int - Byte serialization Tests` {
-        @Suite struct Unit {}
-        @Suite struct `Edge Case` {}
-        @Suite struct Integration {}
-        @Suite(.serialized) struct Performance {}
-    }
+enum `Int Tests` {}
 
-    @Suite
-    struct `[Int] - Byte serialization Tests` {
-        @Suite struct Unit {}
-        @Suite struct `Edge Case` {}
-        @Suite struct Integration {}
-        @Suite(.serialized) struct Performance {}
-    }
+extension `Int Tests` {
+        @Suite
+        struct `Int - Byte serialization Tests` {
+            @Suite struct Unit {}
+            @Suite struct `Edge Case` {}
+            @Suite struct Integration {}
+            @Suite(.serialized) struct Performance {}
+        }
+}
 
-    extension `Int - Byte serialization Tests`.Unit {
+extension `Int Tests` {
+        @Suite
+        struct `[Int] - Byte serialization Tests` {
+            @Suite struct Unit {}
+            @Suite struct `Edge Case` {}
+            @Suite struct Integration {}
+            @Suite(.serialized) struct Performance {}
+        }
+}
+
+    extension `Int Tests`.`Int - Byte serialization Tests`.Unit {
 
         @Test
         func `round-trip conversion preserves value`() {
@@ -134,7 +140,7 @@
         }
     }
 
-    extension `Int - Byte serialization Tests`.`Edge Case` {
+    extension `Int Tests`.`Int - Byte serialization Tests`.`Edge Case` {
 
         @Test
         func `decoding fails with incorrect byte count`() {
@@ -146,7 +152,7 @@
         }
     }
 
-    extension `[Int] - Byte serialization Tests`.Unit {
+    extension `Int Tests`.`[Int] - Byte serialization Tests`.Unit {
 
         @Test
         func `array round-trip conversion`() {
@@ -186,7 +192,7 @@
         }
     }
 
-    extension `[Int] - Byte serialization Tests`.`Edge Case` {
+    extension `Int Tests`.`[Int] - Byte serialization Tests`.`Edge Case` {
 
         @Test
         func `array decoding fails with incorrect byte count`() {

@@ -5,15 +5,25 @@ import Testing
 
 @testable import Binary
 
-@Suite
-struct `Fixed width integer byte views preserve width and endianness` {
+enum `FixedWidthInteger+Binary Tests` {}
+
+extension `FixedWidthInteger+Binary Tests` {
+    @Suite
+    struct `Fixed width integer byte views preserve width and endianness` {
+    }
+}
+
+extension `FixedWidthInteger+Binary Tests`.`Fixed width integer byte views preserve width and endianness` {
     @Suite struct `Integer byte views expose each byte in the requested order` {}
+
     @Suite struct `No integer byte view boundary cases are defined` {}
+
     @Suite struct `No integer byte view integration cases are defined` {}
+
     @Suite(.serialized) struct `No integer byte view performance cases are defined` {}
 }
 
-extension `Fixed width integer byte views preserve width and endianness`
+extension `FixedWidthInteger+Binary Tests`.`Fixed width integer byte views preserve width and endianness`
     .`Integer byte views expose each byte in the requested order`
 {
 

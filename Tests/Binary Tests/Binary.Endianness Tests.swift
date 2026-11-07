@@ -8,11 +8,17 @@ enum `Binary.Endianness Tests` {}
 extension `Binary.Endianness Tests` {
     @Suite
     struct `Endianness defines byte order and its opposite` {
-        @Suite struct `Endianness cases distinguish native network and reversed order` {}
-        @Suite struct `No endianness boundary cases are defined` {}
-        @Suite struct `No endianness integration cases are defined` {}
-        @Suite(.serialized) struct `No endianness performance cases are defined` {}
     }
+}
+
+extension `Binary.Endianness Tests`.`Endianness defines byte order and its opposite` {
+    @Suite struct `Endianness cases distinguish native network and reversed order` {}
+
+    @Suite struct `No endianness boundary cases are defined` {}
+
+    @Suite struct `No endianness integration cases are defined` {}
+
+    @Suite(.serialized) struct `No endianness performance cases are defined` {}
 }
 
 extension `Binary.Endianness Tests`.`Endianness defines byte order and its opposite`

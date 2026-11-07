@@ -3,15 +3,19 @@
     import Byte
     import Testing
 
-    @Suite
-    struct `Int16 - Byte encoding Tests` {
-        @Suite struct Unit {}
-        @Suite struct `Edge Case` {}
-        @Suite struct Integration {}
-        @Suite(.serialized) struct Performance {}
-    }
+enum `Int16 Tests` {}
 
-    extension `Int16 - Byte encoding Tests`.Unit {
+extension `Int16 Tests` {
+        @Suite
+        struct `Int16 - Byte encoding Tests` {
+            @Suite struct Unit {}
+            @Suite struct `Edge Case` {}
+            @Suite struct Integration {}
+            @Suite(.serialized) struct Performance {}
+        }
+}
+
+    extension `Int16 Tests`.`Int16 - Byte encoding Tests`.Unit {
 
         @Test
         func `encode to bytes little-endian`() {

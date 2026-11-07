@@ -5,15 +5,25 @@ import Testing
 
 @testable import Binary
 
-@Suite
-struct `Int32 byte encoding preserves values and endianness` {
+enum `Int32 Tests` {}
+
+extension `Int32 Tests` {
+    @Suite
+    struct `Int32 byte encoding preserves values and endianness` {
+    }
+}
+
+extension `Int32 Tests`.`Int32 byte encoding preserves values and endianness` {
     @Suite struct `Int32 values round trip across byte orders and numeric boundaries` {}
+
     @Suite struct `No Int32 byte encoding boundary cases are defined` {}
+
     @Suite struct `No Int32 byte encoding integration cases are defined` {}
+
     @Suite(.serialized) struct `No Int32 byte encoding performance cases are defined` {}
 }
 
-extension `Int32 byte encoding preserves values and endianness`
+extension `Int32 Tests`.`Int32 byte encoding preserves values and endianness`
     .`Int32 values round trip across byte orders and numeric boundaries`
 {
 
