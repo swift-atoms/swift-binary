@@ -62,17 +62,17 @@ let package = Package(
             name: "Binary",
             dependencies: [
                 .product(name: "Byte", package: "swift-byte"),
-                .product(name: "Parser", package: "swift-parser", condition: .when(traits: ["LEB128"])),
-                .product(name: "Property", package: "swift-property", condition: .when(traits: ["Base"])),
-                .product(name: "Serializer", package: "swift-serializer", condition: .when(traits: ["Serializer"])),
-                .product(name: "Tagged", package: "swift-tagged", condition: .when(traits: ["Serializer"])),
-                .product(name: "Witness", package: "swift-witness", condition: .when(traits: ["Serializer"])),
+                .product(name: "Parser", package: "swift-parser"),
+                .product(name: "Property", package: "swift-property"),
+                .product(name: "Serializer", package: "swift-serializer"),
+                .product(name: "Tagged", package: "swift-tagged"),
+                .product(name: "Witness", package: "swift-witness"),
 
-                .product(name: "Cardinal", package: "swift-cardinal", condition: .when(traits: ["Cursor"])),
-                .product(name: "Difference", package: "swift-difference", condition: .when(traits: ["Cursor"])),
-                .product(name: "Ordinal", package: "swift-ordinal", condition: .when(traits: ["Cursor"])),
-                .product(name: "Index", package: "swift-index", condition: .when(traits: ["Cursor"])),
-                .product(name: "Span", package: "swift-span", condition: .when(traits: ["Cursor"])),
+                .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(name: "Difference", package: "swift-difference"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Index", package: "swift-index"),
+                .product(name: "Span", package: "swift-span"),
             ],
             path: "Sources/Binary"
         ),
@@ -104,7 +104,7 @@ let package = Package(
             name: "Absorbed swift-binary-base Binary Base Tests",
             dependencies: [
                 .target(name: "Binary"), .target(name: "Binary Base Test Support"),
-                .product(name: "Byte", package: "swift-byte", condition: .when(traits: ["Base"])),
+                .product(name: "Byte", package: "swift-byte"),
             ],
             path: "Tests/Absorbed/swift-binary-base/Binary Base Tests"
         ),
@@ -115,14 +115,14 @@ let package = Package(
         ),
         .testTarget(
             name: "Absorbed swift-binary-byte Binary Byte Tests",
-            dependencies: [.target(name: "Binary"), .product(name: "Byte", package: "swift-byte", condition: .when(traits: ["Byte"]))],
+            dependencies: [.target(name: "Binary"), .product(name: "Byte", package: "swift-byte")],
             path: "Tests/Absorbed/swift-binary-byte/Binary Byte Tests"
         ),
         .testTarget(
             name: "Absorbed swift-binary-leb128 Binary LEB128 Parser Tests",
             dependencies: [
                 .target(name: "Binary"), .target(name: "Binary LEB128 Parser Test Support"),
-                .product(name: "Byte", package: "swift-byte", condition: .when(traits: ["LEB128"])),
+                .product(name: "Byte", package: "swift-byte"),
             ],
             path: "Tests/Absorbed/swift-binary-leb128/Binary LEB128 Parser Tests"
         ),
@@ -130,7 +130,7 @@ let package = Package(
             name: "Absorbed swift-binary-leb128 Binary LEB128 Tests",
             dependencies: [
                 .target(name: "Binary"), .target(name: "Binary LEB128 Test Support"),
-                .product(name: "Byte", package: "swift-byte", condition: .when(traits: ["LEB128"])),
+                .product(name: "Byte", package: "swift-byte"),
             ],
             path: "Tests/Absorbed/swift-binary-leb128/Binary LEB128 Tests"
         ),
@@ -148,7 +148,7 @@ let package = Package(
             name: "Absorbed swift-binary-serializer Binary Serializer Tests",
             dependencies: [
                 .target(name: "Binary"), .target(name: "Binary Serializer Test Support"),
-                .product(name: "Byte", package: "swift-byte", condition: .when(traits: ["Serializer"])),
+                .product(name: "Byte", package: "swift-byte"),
             ],
             path: "Tests/Absorbed/swift-binary-serializer/Binary Serializer Tests"
         ),
@@ -171,9 +171,9 @@ let package = Package(
             dependencies: [
                 .target(name: "Binary", condition: .when(traits: ["Cursor"])),
                 .target(name: "Binary Cursor Test Support", condition: .when(traits: ["Cursor"])),
-                .product(name: "Byte", package: "swift-byte", condition: .when(traits: ["Cursor"])),
-                .product(name: "Difference", package: "swift-difference", condition: .when(traits: ["Cursor"])),
-                .product(name: "Span", package: "swift-span", condition: .when(traits: ["Cursor"])),
+                .product(name: "Byte", package: "swift-byte"),
+                .product(name: "Difference", package: "swift-difference"),
+                .product(name: "Span", package: "swift-span"),
             ],
             path: "Tests/Decision Binary Cursor/Binary Cursor Tests"
         ),
