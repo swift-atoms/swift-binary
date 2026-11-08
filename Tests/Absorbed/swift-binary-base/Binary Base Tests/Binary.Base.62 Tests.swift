@@ -4,9 +4,9 @@
     import Byte
     import Testing
 
-enum `Binary.Base.62 Tests` {}
+    enum `Binary.Base.62 Tests` {}
 
-extension `Binary.Base.62 Tests` {
+    extension `Binary.Base.62 Tests` {
         @Suite
         struct `Base 62 preserves integer values` {
             @Test
@@ -81,5 +81,5 @@ extension `Binary.Base.62 Tests` {
                 #expect(Binary.Base.`62`.decode.isValid(Byte(bitPattern: UInt8(ascii: " "))) == false)
             }
         }
-}
+    }
 #endif

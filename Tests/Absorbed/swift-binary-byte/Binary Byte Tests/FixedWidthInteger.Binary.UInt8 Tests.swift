@@ -3,9 +3,9 @@
     import Byte
     import Testing
 
-enum `FixedWidthInteger.Binary.UInt8 Tests` {}
+    enum `FixedWidthInteger.Binary.UInt8 Tests` {}
 
-extension `FixedWidthInteger.Binary.UInt8 Tests` {
+    extension `FixedWidthInteger.Binary.UInt8 Tests` {
         @Suite
         struct `FixedWidthInteger+Binary UInt8 forwarder Tests` {
             @Suite struct Unit {}
@@ -73,5 +73,5 @@ extension `FixedWidthInteger.Binary.UInt8 Tests` {
                 #expect([UInt16](bytes: odd, endianness: .little) == nil)
             }
         }
-}
+    }
 #endif

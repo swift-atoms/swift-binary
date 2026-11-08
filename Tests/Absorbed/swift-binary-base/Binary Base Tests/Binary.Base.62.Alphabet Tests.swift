@@ -4,9 +4,9 @@
     import Byte
     import Testing
 
-enum `Binary.Base.62.Alphabet Tests` {}
+    enum `Binary.Base.62.Alphabet Tests` {}
 
-extension `Binary.Base.62.Alphabet Tests` {
+    extension `Binary.Base.62.Alphabet Tests` {
         @Suite
         struct `Base 62 alphabets map byte values` {
             @Test
@@ -105,5 +105,5 @@ extension `Binary.Base.62.Alphabet Tests` {
                 #expect(a.hashValue == b.hashValue)
             }
         }
-}
+    }
 #endif

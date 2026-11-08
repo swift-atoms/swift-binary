@@ -4,9 +4,9 @@
     import Byte
     import Testing
 
-enum `Binary.Base.16 Tests` {}
+    enum `Binary.Base.16 Tests` {}
 
-extension `Binary.Base.16 Tests` {
+    extension `Binary.Base.16 Tests` {
         @Suite
         struct `Base 16 preserves byte values` {
 
@@ -40,5 +40,5 @@ extension `Binary.Base.16 Tests` {
                 #expect(encoded.isEmpty)
             }
         }
-}
+    }
 #endif

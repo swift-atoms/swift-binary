@@ -3,9 +3,9 @@
     import Byte
     import Testing
 
-enum `Int Tests` {}
+    enum `Int Tests` {}
 
-extension `Int Tests` {
+    extension `Int Tests` {
         @Suite
         struct `Int - Byte serialization Tests` {
             @Suite struct Unit {}
@@ -13,9 +13,9 @@ extension `Int Tests` {
             @Suite struct Integration {}
             @Suite(.serialized) struct Performance {}
         }
-}
+    }
 
-extension `Int Tests` {
+    extension `Int Tests` {
         @Suite
         struct `[Int] - Byte serialization Tests` {
             @Suite struct Unit {}
@@ -23,7 +23,7 @@ extension `Int Tests` {
             @Suite struct Integration {}
             @Suite(.serialized) struct Performance {}
         }
-}
+    }
 
     extension `Int Tests`.`Int - Byte serialization Tests`.Unit {
 

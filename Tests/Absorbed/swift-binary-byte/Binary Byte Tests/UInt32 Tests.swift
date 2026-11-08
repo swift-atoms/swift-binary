@@ -3,9 +3,9 @@
     import Byte
     import Testing
 
-enum `UInt32 Tests` {}
+    enum `UInt32 Tests` {}
 
-extension `UInt32 Tests` {
+    extension `UInt32 Tests` {
         @Suite
         struct `UInt32 - Byte encoding Tests` {
             @Suite struct Unit {}
@@ -13,7 +13,7 @@ extension `UInt32 Tests` {
             @Suite struct Integration {}
             @Suite(.serialized) struct Performance {}
         }
-}
+    }
 
     extension `UInt32 Tests`.`UInt32 - Byte encoding Tests`.Unit {
 

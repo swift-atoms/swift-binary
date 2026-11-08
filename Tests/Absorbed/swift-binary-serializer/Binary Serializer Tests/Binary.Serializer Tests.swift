@@ -130,7 +130,7 @@
         }
     }
 
-extension `Binary.Serializer Tests` {
+    extension `Binary.Serializer Tests` {
         @Suite struct `Explicit raw value serialization` {
             @Test func `string backed values use the selected binary representation`() {
                 #expect(
@@ -152,7 +152,7 @@ extension `Binary.Serializer Tests` {
                 )
             }
         }
-}
+    }
     private enum RawCommand: String { case ok = "OK" }
     private struct RawNumber: RawRepresentable { var rawValue: UInt16 }
 #endif

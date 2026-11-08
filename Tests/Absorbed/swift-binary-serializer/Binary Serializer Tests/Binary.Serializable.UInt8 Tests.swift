@@ -16,9 +16,9 @@
         }
     }
 
-enum `Binary.Serializable.UInt8 Tests` {}
+    enum `Binary.Serializable.UInt8 Tests` {}
 
-extension `Binary.Serializable.UInt8 Tests` {
+    extension `Binary.Serializable.UInt8 Tests` {
         @Suite
         struct `Binary.Serializable UInt8 Tests` {
             @Suite struct Unit {}
@@ -96,5 +96,5 @@ extension `Binary.Serializable.UInt8 Tests` {
                 #expect(s == "World")
             }
         }
-}
+    }
 #endif

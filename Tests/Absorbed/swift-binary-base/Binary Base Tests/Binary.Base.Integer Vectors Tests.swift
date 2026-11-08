@@ -3,9 +3,9 @@
     import Byte
     import Testing
 
-enum `Binary.Base.Integer Vectors Tests` {}
+    enum `Binary.Base.Integer Vectors Tests` {}
 
-extension `Binary.Base.Integer Vectors Tests` {
+    extension `Binary.Base.Integer Vectors Tests` {
         @Suite
         struct `Base 58 and 85 preserve integer golden vectors` {
             static let base58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
@@ -48,5 +48,5 @@ extension `Binary.Base.Integer Vectors Tests` {
                 #expect(Binary.Base.`85`.decode("pW[#knfs9!!", alphabet: Self.base85) == nil)
             }
         }
-}
+    }
 #endif
