@@ -3,7 +3,9 @@
     internal import Property
 
     extension Binary.Base.`62` {
+
         public struct Alphabet: Sendable, Hashable {
+
             @usableFromInline internal let encodeTable: [Byte]
 
             @usableFromInline internal let decodeTable: [UInt8]
@@ -23,38 +25,36 @@
                 self.encodeTable = bytes
                 self.decodeTable = inverse
             }
+
+            @inlinable
+            public func encode(_ value: UInt8) -> Byte {
+                encodeTable[Int(value)]
+            }
+
+            @inlinable
+            public func decode(_ byte: Byte) -> UInt8? {
+                let value = decodeTable[Int(byte.bitPattern)]
+                return value == 0xFF ? nil : value
+            }
+
+            @inlinable
+            public func isValid(_ byte: Byte) -> Bool {
+                decodeTable[Int(byte.bitPattern)] != 0xFF
+            }
+
+            public static let standard: Alphabet = .init(
+                Property<Binary.Base.Encode, Binary.Base.`62`>.standardAlphabet
+            )
+
+            public static let gmp: Alphabet = .init(
+                Property<Binary.Base.Encode, Binary.Base.`62`>.gmpAlphabet
+            )
+
+            public static let inverted: Alphabet = .init(
+                Property<Binary.Base.Encode, Binary.Base.`62`>.invertedAlphabet
+            )
+
+            public static var `default`: Self { .standard }
         }
     }
-
-extension Binary.Base.`62`.Alphabet {
-        @inlinable
-        public func encode(_ value: UInt8) -> Byte {
-            encodeTable[Int(value)]
-        }
-
-        @inlinable
-        public func decode(_ byte: Byte) -> UInt8? {
-            let value = decodeTable[Int(byte.bitPattern)]
-            return value == 0xFF ? nil : value
-        }
-
-        @inlinable
-        public func isValid(_ byte: Byte) -> Bool {
-            decodeTable[Int(byte.bitPattern)] != 0xFF
-        }
-
-        public static let standard: Alphabet = .init(
-            Property<Binary.Base.Encode, Binary.Base.`62`>.standardAlphabet
-        )
-
-        public static let gmp: Alphabet = .init(
-            Property<Binary.Base.Encode, Binary.Base.`62`>.gmpAlphabet
-        )
-
-        public static let inverted: Alphabet = .init(
-            Property<Binary.Base.Encode, Binary.Base.`62`>.invertedAlphabet
-        )
-
-        public static var `default`: Self { .standard }
-}
 #endif
