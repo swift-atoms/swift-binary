@@ -41,7 +41,7 @@
     }
 
     extension Binary.LEB128.Decode {
-        @Suite("Binary.LEB128.Decode") struct Test {
+        @Suite struct Test {
             @Suite struct Unit {}
             @Suite struct `Edge Case` {}
         }

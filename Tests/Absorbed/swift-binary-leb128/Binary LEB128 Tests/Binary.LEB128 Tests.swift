@@ -5,7 +5,7 @@
     import Testing
 
     extension Binary.LEB128 {
-        @Suite("Binary.LEB128") struct Test {
+        @Suite struct Test {
             @Suite struct Unit {}
             @Suite struct `Edge Case` {}
         }
