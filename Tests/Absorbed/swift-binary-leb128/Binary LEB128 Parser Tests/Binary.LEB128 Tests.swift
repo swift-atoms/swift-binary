@@ -255,7 +255,7 @@
     }
 
     extension `Binary.LEB128.Unsigned Tests`.Integration {
-        @Test func redundantEncodingAndNonzeroSlicePreserveRemainder() throws {
+        @Test func `redundant encoding and nonzero slice preserve remainder`() throws {
             let storage = Array(bytes(0xFF, 0x83, 0x00, 0xAA))
             var input = storage.dropFirst()
             #expect(try Binary.LEB128.Unsigned<UInt8>().parse(&input) == 3)
@@ -263,7 +263,7 @@
             #expect(input.map(\.bitPattern) == [0xAA])
         }
 
-        @Test func overflowConsumesRejectedByteButPreservesRemainder() {
+        @Test func `overflow consumes rejected byte but preserves remainder`() {
             var input = bytes(0x80, 0x80, 0x00, 0xAA)
             #expect(throws: Binary.LEB128.Error.overflow(bitWidth: 8)) {
                 try Binary.LEB128.Unsigned<UInt8>().parse(&input)
@@ -273,13 +273,13 @@
     }
 
     extension `Binary.LEB128.Signed Tests`.Integration {
-        @Test func redundantSignExtensionPreservesRemainder() throws {
+        @Test func `redundant sign extension preserves remainder`() throws {
             var input = bytes(0xFE, 0xFF, 0x7F, 0xAA)
             #expect(try Binary.LEB128.Signed<Int16>().parse(&input) == -2)
             #expect(input.map(\.bitPattern) == [0xAA])
         }
 
-        @Test func invalidSignBitsConsumeRejectedByte() {
+        @Test func `invalid sign bits consume rejected byte`() {
             var input = bytes(0x80, 0x01, 0xAA)
             #expect(throws: Binary.LEB128.Error.overflow(bitWidth: 8)) {
                 try Binary.LEB128.Signed<Int8>().parse(&input)

@@ -168,7 +168,7 @@
 
     extension Binary.LEB128.Decode.Test.`Edge Case` {
         @Test(arguments: [-1, Int.min, 8, Int.max])
-        func invalidShiftsRejectBeforeMutation(_ initialShift: Int) {
+        func `invalid shifts reject before mutation`(_ initialShift: Int) {
             var unsigned: UInt8 = 37
             var signed: Int8 = 37
             var unsignedShift = initialShift
@@ -183,7 +183,7 @@
             #expect(unsignedShift == initialShift && signedShift == initialShift)
         }
 
-        @Test func continuationAtWidthLimitIsOverflowBeforeMutation() {
+        @Test func `continuation at width limit is overflow before mutation`() {
             var unsigned: UInt8 = 3
             var signed: Int8 = 3
             var unsignedShift = 7
@@ -202,7 +202,7 @@
             #expect(unsignedShift == 7 && signedShift == 7)
         }
 
-        @Test func rejectedTerminalPayloadDoesNotMutateState() {
+        @Test func `rejected terminal payload does not mutate state`() {
             var unsigned: UInt8 = 3
             var signed: Int8 = 3
             var unsignedShift = 7
@@ -221,14 +221,14 @@
             #expect(unsignedShift == 7 && signedShift == 7)
         }
 
-        @Test func permitsRedundantEncodingWithinWidthBound() throws {
+        @Test func `permits redundant encoding within width bound`() throws {
 
             #expect(try decodeUnsigned([0x83, 0x00], UInt8.self) == 3)
             #expect(try decodeSigned([0xFE, 0x7F], Int16.self) == -2)
             #expect(try decodeSigned([0xFE, 0xFF, 0x7F], Int16.self) == -2)
         }
 
-        @Test func everyEightBitValueRoundTrips() throws {
+        @Test func `every eight bit value round trips`() throws {
             for value in UInt8.min...UInt8.max {
                 #expect(try decodeUnsigned(encoded(value), UInt8.self) == value)
             }
@@ -237,7 +237,7 @@
             }
         }
 
-        @Test func oneHundredTwentyEightBitLimits() throws {
+        @Test func `one hundred twenty eight bit limits`() throws {
             #expect(try decodeUnsigned(encoded(UInt128.max), UInt128.self) == UInt128.max)
             #expect(try decodeSigned(encoded(Int128.min), Int128.self) == Int128.min)
             #expect(try decodeSigned(encoded(Int128.max), Int128.self) == Int128.max)
