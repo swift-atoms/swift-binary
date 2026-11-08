@@ -1,3 +1,3 @@
 #if LEB128
-    @_exported public import Byte
+    public import Byte
 #endif
