@@ -1,8 +1,8 @@
 #if Cursor
-    import Byte
-    import Index
-    import Span
-    import Cardinal
-    import Difference
-    import Ordinal
+    public import Byte
+    public import Index
+    public import Span
+    public import Cardinal
+    public import Difference
+    public import Ordinal
 #endif

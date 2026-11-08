@@ -1,4 +1,4 @@
 #if LEB128
-    import Byte
-    import Parser
+    public import Byte
+    public import Parser
 #endif
