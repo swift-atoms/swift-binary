@@ -30,7 +30,7 @@
         @Test
         func `round-trip conversion preserves value`() {
             let value: Int = 42
-            let bytes = [Byte](value)
+            let bytes = [Byte](value, endianness: .little)
             let recovered = Int(bytes: bytes)
             #expect(recovered == value)
         }
@@ -126,7 +126,7 @@
         @Test
         func `zero value round-trip`() {
             let value: Int = 0
-            let bytes = [Byte](value)
+            let bytes = [Byte](value, endianness: .little)
             let recovered = Int(bytes: bytes)
             #expect(recovered == value)
         }
@@ -134,7 +134,7 @@
         @Test
         func `negative value round-trip`() {
             let value: Int = -42
-            let bytes = [Byte](value)
+            let bytes = [Byte](value, endianness: .little)
             let recovered = Int(bytes: bytes)
             #expect(recovered == value)
         }

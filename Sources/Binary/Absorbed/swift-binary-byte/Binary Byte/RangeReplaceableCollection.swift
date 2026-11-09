@@ -30,13 +30,59 @@ public import Byte
     }
 #endif
 
+// Endianness defaults only for explicitly sized integers. A platform-width
+// integer, and so a bare integer literal (which defaults to `Int`), must name
+// its endianness: otherwise `bytes.append(0)` compiles and writes eight bytes.
+// `append(0)` without endianness is ambiguous; write `Byte(0)` or a sized type.
 extension RangeReplaceableCollection<Byte> {
 
     @inlinable
-    public init(
-        _ value: some FixedWidthInteger,
-        endianness: Binary.Endianness = .little
-    ) {
+    public init(_ value: some FixedWidthInteger, endianness: Binary.Endianness) {
+        self.init(integer: value, endianness: endianness)
+    }
+
+    @inlinable
+    public init(_ value: UInt8, endianness: Binary.Endianness = .little) {
+        self.init(integer: value, endianness: endianness)
+    }
+
+    @inlinable
+    public init(_ value: Int8, endianness: Binary.Endianness = .little) {
+        self.init(integer: value, endianness: endianness)
+    }
+
+    @inlinable
+    public init(_ value: UInt16, endianness: Binary.Endianness = .little) {
+        self.init(integer: value, endianness: endianness)
+    }
+
+    @inlinable
+    public init(_ value: Int16, endianness: Binary.Endianness = .little) {
+        self.init(integer: value, endianness: endianness)
+    }
+
+    @inlinable
+    public init(_ value: UInt32, endianness: Binary.Endianness = .little) {
+        self.init(integer: value, endianness: endianness)
+    }
+
+    @inlinable
+    public init(_ value: Int32, endianness: Binary.Endianness = .little) {
+        self.init(integer: value, endianness: endianness)
+    }
+
+    @inlinable
+    public init(_ value: UInt64, endianness: Binary.Endianness = .little) {
+        self.init(integer: value, endianness: endianness)
+    }
+
+    @inlinable
+    public init(_ value: Int64, endianness: Binary.Endianness = .little) {
+        self.init(integer: value, endianness: endianness)
+    }
+
+    @usableFromInline
+    internal init(integer value: some FixedWidthInteger, endianness: Binary.Endianness) {
         self.init()
         reserveCapacity(MemoryLayout.size(ofValue: value))
         value.bytes(into: &self, endianness: endianness)
@@ -55,10 +101,47 @@ extension RangeReplaceableCollection<Byte> {
     }
 
     @inlinable
-    public mutating func append(
-        _ value: some FixedWidthInteger,
-        endianness: Binary.Endianness = .little
-    ) {
+    public mutating func append(_ value: some FixedWidthInteger, endianness: Binary.Endianness) {
+        value.bytes(into: &self, endianness: endianness)
+    }
+
+    @inlinable
+    public mutating func append(_ value: UInt8, endianness: Binary.Endianness = .little) {
+        value.bytes(into: &self, endianness: endianness)
+    }
+
+    @inlinable
+    public mutating func append(_ value: Int8, endianness: Binary.Endianness = .little) {
+        value.bytes(into: &self, endianness: endianness)
+    }
+
+    @inlinable
+    public mutating func append(_ value: UInt16, endianness: Binary.Endianness = .little) {
+        value.bytes(into: &self, endianness: endianness)
+    }
+
+    @inlinable
+    public mutating func append(_ value: Int16, endianness: Binary.Endianness = .little) {
+        value.bytes(into: &self, endianness: endianness)
+    }
+
+    @inlinable
+    public mutating func append(_ value: UInt32, endianness: Binary.Endianness = .little) {
+        value.bytes(into: &self, endianness: endianness)
+    }
+
+    @inlinable
+    public mutating func append(_ value: Int32, endianness: Binary.Endianness = .little) {
+        value.bytes(into: &self, endianness: endianness)
+    }
+
+    @inlinable
+    public mutating func append(_ value: UInt64, endianness: Binary.Endianness = .little) {
+        value.bytes(into: &self, endianness: endianness)
+    }
+
+    @inlinable
+    public mutating func append(_ value: Int64, endianness: Binary.Endianness = .little) {
         value.bytes(into: &self, endianness: endianness)
     }
 }

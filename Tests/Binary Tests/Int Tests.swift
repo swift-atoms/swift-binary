@@ -46,7 +46,7 @@ extension `Int Tests`.`Int serialization preserves signed values and byte order`
     @Test
     func `round-trip conversion preserves value`() {
         let value: Int = 42
-        let bytes = [Byte](value)
+        let bytes = [Byte](value, endianness: .little)
         let recovered = Int(bytes: bytes)
         #expect(recovered == value)
     }
@@ -134,7 +134,7 @@ extension `Int Tests`.`Int serialization preserves signed values and byte order`
     @Test
     func `Int zero survives byte encoding and decoding`() {
         let value: Int = 0
-        let bytes = [Byte](value)
+        let bytes = [Byte](value, endianness: .little)
         let recovered = Int(bytes: bytes)
         #expect(recovered == value)
     }
@@ -142,7 +142,7 @@ extension `Int Tests`.`Int serialization preserves signed values and byte order`
     @Test
     func `Negative Int values survive byte encoding and decoding`() {
         let value: Int = -42
-        let bytes = [Byte](value)
+        let bytes = [Byte](value, endianness: .little)
         let recovered = Int(bytes: bytes)
         #expect(recovered == value)
     }

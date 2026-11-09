@@ -35,6 +35,28 @@ extension `RangeReplaceableCollection+Binary Tests` {
         }
 
         @Test
+        func `appending a sized integer without endianness writes its own width`() {
+            var bytes: [Byte] = []
+            bytes.append(UInt8(0x01))
+            bytes.append(Int8(-1))
+            bytes.append(UInt16(0x0302))
+            #expect(bytes == [0x01, 0xFF, 0x02, 0x03].map { Byte(bitPattern: $0) })
+        }
+
+        // swift-atoms/swift-binary#13: a bare literal defaults to `Int`, so
+        // `bytes.append(0)` wrote eight bytes. It no longer compiles; a
+        // platform-width integer must name its endianness.
+        @Test
+        func `appending a platform width integer names its endianness`() {
+            var bytes: [Byte] = []
+            bytes.append(Byte(0))
+            #expect(bytes.count == 1)
+            bytes.append(Int(1), endianness: .big)
+            #expect(bytes.count == 1 + MemoryLayout<Int>.size)
+            #expect(bytes.last == Byte(bitPattern: 1))
+        }
+
+        @Test
         func `Array decodes fixed width integers from bytes`() {
             let bytes = [0x01, 0x00, 0x02, 0x00].map { Byte(bitPattern: $0) }
             let values = [UInt16](bytes: bytes, endianness: .little)
