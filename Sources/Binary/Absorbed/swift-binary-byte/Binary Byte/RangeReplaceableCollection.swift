@@ -30,10 +30,6 @@ public import Byte
     }
 #endif
 
-// Endianness defaults only for explicitly sized integers. A platform-width
-// integer, and so a bare integer literal (which defaults to `Int`), must name
-// its endianness: otherwise `bytes.append(0)` compiles and writes eight bytes.
-// `append(0)` without endianness is ambiguous; write `Byte(0)` or a sized type.
 extension RangeReplaceableCollection<Byte> {
 
     @inlinable
@@ -42,6 +38,7 @@ extension RangeReplaceableCollection<Byte> {
     }
 
     @inlinable
+    @_disfavoredOverload
     public init(_ value: UInt8, endianness: Binary.Endianness = .little) {
         self.init(integer: value, endianness: endianness)
     }
@@ -106,6 +103,7 @@ extension RangeReplaceableCollection<Byte> {
     }
 
     @inlinable
+    @_disfavoredOverload
     public mutating func append(_ value: UInt8, endianness: Binary.Endianness = .little) {
         value.bytes(into: &self, endianness: endianness)
     }

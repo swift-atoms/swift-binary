@@ -50,9 +50,9 @@ extension `RangeReplaceableCollection+Binary Tests` {
         func `appending a platform width integer names its endianness`() {
             var bytes: [Byte] = []
             bytes.append(Byte(0))
-            #expect(bytes.count == 1)
+            #expect(bytes == [Byte(0)])
             bytes.append(Int(1), endianness: .big)
-            #expect(bytes.count == 1 + MemoryLayout<Int>.size)
+            #expect(bytes == [Byte(0)] + [Byte](Int(1), endianness: .big))
             #expect(bytes.last == Byte(bitPattern: 1))
         }
 
