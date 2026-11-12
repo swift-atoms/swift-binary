@@ -7,7 +7,7 @@
         @inlinable
         public static func bytes(_ value: Self, endianness: Binary.Endianness = .little) -> [UInt8] {
             let typed: [Byte] = Self.bytes(value, endianness: endianness)
-            return typed.map(\.bitPattern)
+            return typed.map({ $0.bitPattern })
         }
 
         @_disfavoredOverload

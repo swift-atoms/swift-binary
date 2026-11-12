@@ -40,7 +40,7 @@
                 out.append(alphabet[Int((b & 0x0F) << 2)])
                 if let p = pad { out.append(p) }
             }
-            return String(decoding: out.map(\.bitPattern), as: UTF8.self)
+            return String(decoding: out.map({ $0.bitPattern }), as: UTF8.self)
         }
     }
 #endif

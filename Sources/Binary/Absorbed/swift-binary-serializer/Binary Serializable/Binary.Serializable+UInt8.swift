@@ -9,7 +9,7 @@
         ) where Buffer.Element == UInt8 {
             var byteBuffer: ContiguousArray<Byte> = []
             Self.serialize(self, into: &byteBuffer)
-            buffer.append(contentsOf: byteBuffer.lazy.map(\.bitPattern))
+            buffer.append(contentsOf: byteBuffer.lazy.map({ $0.bitPattern }))
         }
 
         @_disfavoredOverload
@@ -19,7 +19,7 @@
         ) throws(E) -> R {
             var byteBuffer: ContiguousArray<Byte> = []
             Self.serialize(value, into: &byteBuffer)
-            let uint8Buffer = ContiguousArray<UInt8>(byteBuffer.lazy.map(\.bitPattern))
+            let uint8Buffer = ContiguousArray<UInt8>(byteBuffer.lazy.map({ $0.bitPattern }))
             return try body(uint8Buffer.span)
         }
 
@@ -37,7 +37,7 @@
         public mutating func append<S: Binary.Serializable>(_ serializable: S) {
             var byteBuffer: ContiguousArray<Byte> = []
             S.serialize(serializable, into: &byteBuffer)
-            self.append(contentsOf: byteBuffer.lazy.map(\.bitPattern))
+            self.append(contentsOf: byteBuffer.lazy.map({ $0.bitPattern }))
         }
     }
 
@@ -47,7 +47,7 @@
         public init<S: Binary.Serializable>(_ serializable: S) {
             var typed: [Byte] = []
             S.serialize(serializable, into: &typed)
-            self = typed.map(\.bitPattern)
+            self = typed.map({ $0.bitPattern })
         }
     }
 
@@ -57,7 +57,7 @@
         public init<S: Binary.Serializable>(_ serializable: S) {
             var typed: ContiguousArray<Byte> = []
             S.serialize(serializable, into: &typed)
-            self = ContiguousArray(typed.map(\.bitPattern))
+            self = ContiguousArray(typed.map({ $0.bitPattern }))
         }
     }
 

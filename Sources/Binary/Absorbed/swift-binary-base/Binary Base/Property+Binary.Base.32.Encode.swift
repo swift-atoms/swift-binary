@@ -28,7 +28,7 @@
             if let p = pad {
                 while !out.count.isMultiple(of: 8) { out.append(p) }
             }
-            return String(decoding: out.map(\.bitPattern), as: UTF8.self)
+            return String(decoding: out.map({ $0.bitPattern }), as: UTF8.self)
         }
     }
 #endif

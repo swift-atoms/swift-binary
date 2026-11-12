@@ -87,7 +87,7 @@
 
         public init<T: Binary.Serializable>(_ value: T) {
             let typed: [Byte] = value.bytes
-            self = Self(decoding: typed.lazy.map(\.bitPattern), as: UTF8.self)
+            self = Self(decoding: typed.lazy.map({ $0.bitPattern }), as: UTF8.self)
         }
     }
 
